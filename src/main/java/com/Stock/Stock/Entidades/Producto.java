@@ -7,13 +7,17 @@ package com.Stock.Stock.Entidades;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +38,9 @@ public abstract class Producto {
     protected String nombre;
     protected Double costo;
     protected Double precioVenta;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    protected Categoria categoria;
     
     
     @OneToMany (mappedBy = "producto")          
@@ -48,6 +55,15 @@ public abstract class Producto {
     
     @OneToMany (mappedBy = "producto")
     protected List<DetallePedido> detallesPedido;
+    
+    @OneToOne
+    protected Foto foto;
+    
+    
+    
+    
+    
+    
 
     public Producto(String nombre, Double costo, Double precioVenta, List<Movimiento> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
         this.nombre = nombre;
@@ -57,6 +73,7 @@ public abstract class Producto {
         this.lote = lote;
         this.detallesGasto = detallesGasto;
         this.detallesPedido = detallesPedido;
+        
     }
 
  
