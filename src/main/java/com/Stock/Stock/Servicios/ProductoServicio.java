@@ -41,6 +41,10 @@ public class ProductoServicio {
         P.setFoto(fotoServicio.guardar(foto));
         P.setPrecioVenta(precioVenta);
         P.setCategoria(Categoria.valueOf(categoria));
+       
+       
+        
+        
         
         productoRepositorio.save(P);
         

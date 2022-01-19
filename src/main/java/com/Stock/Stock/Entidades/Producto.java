@@ -38,8 +38,8 @@ public abstract class Producto {
     protected String nombre;
     protected Double costo;
     protected Double precioVenta;
+    @Column(name = "TIPO")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     protected Categoria categoria;
     
     

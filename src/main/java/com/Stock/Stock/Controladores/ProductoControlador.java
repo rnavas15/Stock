@@ -44,9 +44,9 @@ public class ProductoControlador {
     @PostMapping("/crear-producto")
     public String crearProducto(ModelMap modelo,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria) throws Exception{
         
-        productoServicio.crearProdEstandar(fabricante,0 , nombre, costo, precio,foto);
+        productoServicio.crearProdEstandar(fabricante,0 , nombre, costo, precio,foto,categoria);
         modelo.put("productos",productoServicio.buscarProductos());
-        return"/Producto/producto";
+        return "redirect:";
     }
     
     
