@@ -6,12 +6,8 @@
 package com.Stock.Stock.Controladores;
 
 import Enum.Categoria;
-import com.Stock.Stock.Entidades.Lote;
-import com.Stock.Stock.Servicios.LoteServicio;
+import Enum.UnidadesDeMedida;
 import com.Stock.Stock.Servicios.ProductoServicio;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,26 +22,27 @@ import org.springframework.web.multipart.MultipartFile;
  * @author rnavas
  */
 @Controller
-@RequestMapping("/Producto")
-public class ProductoControlador {
+@RequestMapping("/Prueba")
+public class ControladorPrueba {
     
     @Autowired
     ProductoServicio productoServicio;
     
     
     @GetMapping("")
-    public String productos(ModelMap modelo){
+    public String articulos(ModelMap modelo){
                  
         modelo.put("categorias", Categoria.values());
-        modelo.put("productos",productoServicio.buscarProductos());
-        return "/Producto/producto";
+        modelo.put("unidades", UnidadesDeMedida.values());
+        modelo.put("productos",productoServicio.buscarArticulos());
+        return "/Starter";
     }
     
-    @PostMapping("/crear-producto")
-    public String crearProducto(ModelMap modelo,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria) throws Exception{
+    @PostMapping("/crear-articulo")
+    public String crearArticulo(ModelMap modelo,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria,@RequestParam String unidad) throws Exception{
         
-        productoServicio.crearProdEstandar(fabricante,0 , nombre, costo, precio,foto,categoria);
-        modelo.put("productos",productoServicio.buscarProductos());
+        productoServicio.crearArticulo(fabricante,0 , nombre, costo, precio,foto,categoria,unidad);
+        modelo.put("articulos",productoServicio.buscarArticulos());
         return "redirect:";
     }
     

@@ -5,6 +5,7 @@
  */
 package com.Stock.Stock.Controladores;
 
+import Enum.UnidadesDeMedida;
 import Enum.Categoria;
 import com.Stock.Stock.Entidades.Lote;
 import com.Stock.Stock.Servicios.LoteServicio;
@@ -26,26 +27,27 @@ import org.springframework.web.multipart.MultipartFile;
  * @author rnavas
  */
 @Controller
-@RequestMapping("/Producto")
-public class ProductoControlador {
+@RequestMapping("/Articulo")
+public class ArticuloControlador {
     
     @Autowired
     ProductoServicio productoServicio;
     
     
     @GetMapping("")
-    public String productos(ModelMap modelo){
+    public String articulos(ModelMap modelo){
                  
         modelo.put("categorias", Categoria.values());
-        modelo.put("productos",productoServicio.buscarProductos());
-        return "/Producto/producto";
+        modelo.put("unidades", UnidadesDeMedida.values());
+        modelo.put("productos",productoServicio.buscarArticulos());
+        return "/Producto/articulo";
     }
     
-    @PostMapping("/crear-producto")
-    public String crearProducto(ModelMap modelo,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria) throws Exception{
+    @PostMapping("/crear-articulo")
+    public String crearArticulo(ModelMap modelo,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria,@RequestParam String unidad) throws Exception{
         
-        productoServicio.crearProdEstandar(fabricante,0 , nombre, costo, precio,foto,categoria);
-        modelo.put("productos",productoServicio.buscarProductos());
+        productoServicio.crearArticulo(fabricante,0 , nombre, costo, precio,foto,categoria,unidad);
+        modelo.put("articulos",productoServicio.buscarArticulos());
         return "redirect:";
     }
     

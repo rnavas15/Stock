@@ -5,6 +5,7 @@
  */
 package com.Stock.Stock.Entidades;
 
+import Enum.Categoria;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -29,6 +30,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 
 public abstract class Producto {
 

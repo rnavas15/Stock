@@ -8,7 +8,10 @@
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
     <!-- Navbar -->
-   <div th:insert="fragments/components :: asidebar"></div>
+    <div th:insert="fragments/components :: asidebar"></div>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
     <div th:insert="fragments/components :: sidebar"></div>
 
 
@@ -183,9 +186,13 @@
                       </div>
                     </div>
                  
+
+
+
                     <div class="form-group">
                       <label for="listaLotes">Lote</label>
                       <div>
+
                         <select id="myselect">
                           <option value="1">Lote1</option>
                           <option value="2">Lote2</option>
@@ -252,7 +259,7 @@
   </div>
   <!-- ./wrapper -->
 
-  <div th:insert="fragments/components">
+  <div th:insert="fragments/components :: scripts">
 
   </div>
   <script>
@@ -439,19 +446,23 @@
       }, false);
     })()
   </script>
- 
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
 </body>
 
 </html>
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About

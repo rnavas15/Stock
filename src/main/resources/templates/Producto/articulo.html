@@ -8,7 +8,10 @@
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
     <!-- Navbar -->
-   <div th:insert="fragments/components :: asidebar"></div>
+    <div th:insert="fragments/components :: asidebar"></div>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
     <div th:insert="fragments/components :: sidebar"></div>
 
 
@@ -32,21 +35,22 @@
 
                   <div class="card">
                     <div class="card-header">
-                      <h3 class="card-title">Lista de Productos</h3>
+                      <h3 class="card-title">Lista de Artículos</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                       <table id="example1" class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>Producto</th>
+                            <th>Articulo</th>
                             <th>Fabricante</th>
                             <th>Costo</th>
                             <th>Precio Venta</th>
                             <th>Categoria</th>
+                            <th>Unidad de Medida</th>
                             <th>Imagen</th>
                             <th>Acciones</th>
-                           
+
 
                           </tr>
                         </thead>
@@ -57,16 +61,15 @@
                             <td th:text="${producto.costo}"></td>
                             <td th:text="${producto.precioVenta}"></td>
                             <td th:text="${producto.categoria}"></td>
-                            <td th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
-                                th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil">
-                            </td>
+                            <td th:text="${producto.unidad}"></td>
+                            <td th:if="${producto.foto!=null}"><img class="d-inline-block align-top"  th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil"></td>
                             <td th:unless="${producto.foto!=null}"></td>
                             <td>
                               <div class="btn btn-primary">Modificar</div>
                               <div class="btn btn-success">Dar de Baja</div>
                             </td>
 
-                            </td>
+                            
                           </tr>
 
                         </tbody>
@@ -88,7 +91,7 @@
 
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>NUEVO PRODUCTO </h1>
+              <h1>NUEVO ARTICULO </h1>
             </div>
 
           </div>
@@ -104,15 +107,15 @@
               <!-- general form elements -->
               <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">PRODUCTO</h3>
+                  <h3 class="card-title">ARTICULO</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form id="formularioProducto" class="needs-validation mb-4" th:action="@{/Producto/crear-producto}"
+                <form id="formularioProducto" class="needs-validation mb-4" th:action="@{/Articulo/crear-articulo}"
                   method="post" autocomplete="off" novalidate enctype="multipart/form-data">
                   <div class="card-body">
                     <div class="form-group mb-3">
-                      <label for="nombreProd">Nombre del Producto</label>
+                      <label for="nombreArt">Nombre del Articulo</label>
                       <input name="nombre" type="text" class="form-control" required id="nombreProd"
                         placeholder="Nombre">
                       <div class="invalid-feedback text-start">El nombre es obligatorio</div>
@@ -145,12 +148,26 @@
                     <section class="content">
                       <div class="container-fluid">
                         <div class="form-group">
-                          <label>Categoria de Producto</label>
+                          <label>Categoria de Articulo</label>
                           <select class="select" style="width: 100%;" name="categoria">
                             <option th:each="categoria:${categorias}" selected="selected" th:text="${categoria}">
                             </option>
 
                           </select>
+
+                        </div>
+                      </div>
+                    </section>
+                    <section class="content">
+                      <div class="container-fluid">
+                        <div class="form-group">
+                          <label>Unidad de Medida de Articulo</label>
+                          <select class="select" style="width: 100%;" name="unidad">
+                            <option th:each="unidad:${unidades}" selected="selected" th:text="${unidad}">
+                            </option>
+
+                          </select>
+
                         </div>
                       </div>
                     </section>
@@ -183,9 +200,13 @@
                       </div>
                     </div>
                  
+
+
+
                     <div class="form-group">
                       <label for="listaLotes">Lote</label>
                       <div>
+
                         <select id="myselect">
                           <option value="1">Lote1</option>
                           <option value="2">Lote2</option>
@@ -199,7 +220,7 @@
                       <div class="input-group">
                         <div class="custom-file">
                           <input name="foto" type="file" class="custom-file-input" id="Image">
-                          <label class="custom-file-label" for="exampleInputFile">Foto del Producto</label>
+                          <label class="custom-file-label" for="exampleInputFile">Foto del Articulo</label>
                         </div>
                         <div class="input-group-append">
                           <span class="input-group-text">Upload</span>
@@ -252,7 +273,7 @@
   </div>
   <!-- ./wrapper -->
 
-  <div th:insert="fragments/components">
+  <div th:insert="fragments/components :: scripts">
 
   </div>
   <script>
@@ -424,34 +445,8 @@
       });
     });
   </script>
-  <script>
-    (() => {
-      "use strict";
-
-      const form = document.getElementById("formularioProducto");
-      form.addEventListener("submit", (event) => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
-        form.classList.add("was-validated");
-      }, false);
-    })()
-  </script>
+ 
  
 </body>
 
 </html>
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About

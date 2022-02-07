@@ -5,9 +5,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | General Form Elements</title>
-  <link rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
   <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
   <!-- Theme style -->
   <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
@@ -253,7 +255,7 @@
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="/ProductoCompuesto" class="nav-link">
+                      <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Productos compuestos</p>
                       </a>
@@ -931,16 +933,6 @@
         }, false);
       })()
     </script>
-    <script src="/src/main/resources/templates/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
-        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
-        integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
-        crossorigin="anonymous"></script>
-    <script src="dashboard.js"></script>
     <!-- jQuery -->
     <!-- jQuery UI 1.11.4 -->
     <script th:src="@{plugins/jquery-ui/jquery-ui.min.js}"></script>
@@ -989,19 +981,15 @@
     <script th:src="@{/plugins/moment/moment.min.js}"></script>
     <script th:src="@{/plugins/inputmask/jquery.inputmask.min.js}"></script>
     <script>
-      $(function () {
-        $("#example1").DataTable({
-          "responsive": true, "lengthChange": false, "autoWidth": false,
-          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
+
+      $(document).ready(function () {
+        $('#data-table').DataTable({
+          dom: 'Bfrtip',
+          buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5'
+          ]
         });
       });
     </script>
