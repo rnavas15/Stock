@@ -7,6 +7,8 @@ package com.Stock.Stock.Controladores;
 
 import Enum.Categoria;
 import Enum.UnidadesDeMedida;
+import com.Stock.Stock.Entidades.Articulo;
+import com.Stock.Stock.Entidades.Producto;
 import com.Stock.Stock.Servicios.ProductoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,12 +17,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author rnavas
  */
+
+
+
 @Controller
 @RequestMapping("/Prueba")
 public class ControladorPrueba {
@@ -29,13 +35,14 @@ public class ControladorPrueba {
     ProductoServicio productoServicio;
     
     
-    @GetMapping("")
+
+     @GetMapping("")
     public String articulos(ModelMap modelo){
-                 
+      
         modelo.put("categorias", Categoria.values());
         modelo.put("unidades", UnidadesDeMedida.values());
         modelo.put("productos",productoServicio.buscarArticulos());
-        return "/Starter";
+        return "/Producto/Starter";
     }
     
     @PostMapping("/crear-articulo")

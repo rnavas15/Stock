@@ -6,6 +6,7 @@
 package com.Stock.Stock.Entidades;
 
 import Enum.Categoria;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -21,22 +22,26 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
  * @author rnavas
  */
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+public abstract class Producto implements Serializable {
 
-public abstract class Producto {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Integer prodId;
+    
     protected String nombre;
     protected Double costo;
     protected Double precioVenta;
@@ -45,8 +50,9 @@ public abstract class Producto {
     protected Categoria categoria;
     
     
-    @OneToMany (mappedBy = "producto")          
-    protected List<Movimiento> movimiento;
+    @OneToMany (mappedBy = "producto")    
+    @JsonManagedReference
+    protected List<MovimientoStock> movimiento;
     
     @OneToMany (mappedBy = "producto")
     protected List<Lote> lote;
@@ -57,17 +63,17 @@ public abstract class Producto {
     
     @OneToMany (mappedBy = "producto")
     protected List<DetallePedido> detallesPedido;
-    
+
     @OneToOne
     protected Foto foto;
-    
-    
-    
-    
-    
-    
 
-    public Producto(String nombre, Double costo, Double precioVenta, List<Movimiento> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
+  
+    
+    
+    
+    
+    
+        public Producto(String nombre, Double costo, Double precioVenta, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
         this.nombre = nombre;
         this.costo = costo;
         this.precioVenta = precioVenta;

@@ -6,6 +6,7 @@
 package com.Stock.Stock.Controladores;
 
 import Enum.Categoria;
+import Enum.UnidadesDeMedida;
 import com.Stock.Stock.Entidades.Lote;
 import com.Stock.Stock.Servicios.LoteServicio;
 import com.Stock.Stock.Servicios.ProductoServicio;
@@ -37,7 +38,7 @@ public class ProductoControlador {
     public String productos(ModelMap modelo){
                  
         modelo.put("categorias", Categoria.values());
-        modelo.put("productos",productoServicio.buscarProductos());
+        modelo.put("productos",productoServicio.buscarProductosStandar());
         return "/Producto/producto";
     }
     
@@ -45,11 +46,19 @@ public class ProductoControlador {
     public String crearProducto(ModelMap modelo,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria) throws Exception{
         
         productoServicio.crearProdEstandar(fabricante,0 , nombre, costo, precio,foto,categoria);
-        modelo.put("productos",productoServicio.buscarProductos());
+        modelo.put("productos",productoServicio.buscarProductosStandar());
         return "redirect:";
     }
     
-    
+    @RequestMapping("/Stock")
+    public String recargar(ModelMap modelo){
+                 
+         modelo.put("categorias", Categoria.values());
+        modelo.put("unidades", UnidadesDeMedida.values());
+        modelo.put("productos",productoServicio.buscarProductosStandar());
+
+       return  "/Producto/Refrescar";
+    }
     
 }
 

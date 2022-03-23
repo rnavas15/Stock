@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:insert="fragments/components :: head">
-
+  <title>Articulos</title>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -39,7 +39,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                      <table id="example1" class="table table-bordered table-striped">
+                      <table id="Articulos" class="table table-bordered table-striped">
                         <thead>
                           <tr>
                             <th>Articulo</th>
@@ -55,21 +55,31 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr th:each="producto:${productos}">
-                            <td th:text="${producto.nombre}"></td>
-                            <td th:text="${producto.fabricante}"></td>
-                            <td th:text="${producto.costo}"></td>
-                            <td th:text="${producto.precioVenta}"></td>
-                            <td th:text="${producto.categoria}"></td>
+                          <tr id="tablaPC" th:each="producto:${productos}">
+                            <td id="ArtId" th:value="${producto.prodId}" th:class="${producto.prodId}"
+                              style="display:none" th:text="${producto.prodId}" readonly></td>
+                            <td id="ArtNombre" th:text="${producto.nombre}"></td>
+                            <td id="ArtFabricante" th:text="${producto.fabricante}"></td>
+                            <td id="ArtCosto" th:text="${producto.costo}"></td>
+                            <td id="ArtPrecio" th:text="${producto.precioVenta}"></td>
+                            <td id="ArtCategoria" th:text="${producto.categoria}"></td>
                             <td th:text="${producto.unidad}"></td>
-                            <td th:if="${producto.foto!=null}"><img class="d-inline-block align-top"  th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil"></td>
+                            <td th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
+                                th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil">
+                            </td>
                             <td th:unless="${producto.foto!=null}"></td>
-                            <td>
-                              <div class="btn btn-primary">Modificar</div>
-                              <div class="btn btn-success">Dar de Baja</div>
+                            <td id="ModificarProducto">
+                              <button class="btn btn-primary editar"
+                                th:attr="onclick=|myFunction('${producto.prodId}')|"><i
+                                  class="fas fa-solid fa-pen"></i></button>
+                              <button class="btn btn-danger eliminar"
+                                th:attr="onclick=|eliminar('${producto.prodId}')|"><i
+                                  class="fas fa-solid fa-trash"></i></button>
                             </td>
 
-                            
+
+
+
                           </tr>
 
                         </tbody>
@@ -115,145 +125,96 @@
                   method="post" autocomplete="off" novalidate enctype="multipart/form-data">
                   <div class="card-body">
                     <div class="form-group mb-3">
-                      <label for="nombreArt">Nombre del Articulo</label>
-                      <input name="nombre" type="text" class="form-control" required id="nombreProd"
-                        placeholder="Nombre">
-                      <div class="invalid-feedback text-start">El nombre es obligatorio</div>
+                      <label for="idArt">ID del Articulo</label>
+                      <input name="id" type="text" class="form-control" placeholder="ID" id="idArt" readonly>
+                      <div class="invalid-feedback text-start">El ID es obligatorio</div>
                     </div>
-                    <div class="form-group">
-                      <label for="fabricanteProd">Fabricante</label>
-                      <input name="fabricante" type="text" class="form-control" required id="fabricanteProd"
-                        placeholder="Fabricante">
-                      <div class="invalid-feedback text-start">El Fabricante es obligatorio</div>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="nombreArt">Nombre del Articulo</label>
+                    <input name="nombre" type="text" class="form-control" required id="nombreProd" placeholder="Nombre">
+                    <div class="invalid-feedback text-start">El nombre es obligatorio</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="fabricanteProd">Fabricante</label>
+                    <input name="fabricante" type="text" class="form-control" required id="fabricanteProd"
+                      placeholder="Fabricante">
+                    <div class="invalid-feedback text-start">El Fabricante es obligatorio</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="costoProd">Costo</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input name="costo" type="number" class="form-control" id="costoProd" placeholder="Costo">
                     </div>
-                    <div class="form-group">
-                      <label for="costoProd">Costo</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">$</span>
-                        </div>
-                        <input name="costo" type="number" class="form-control" id="costoProd" placeholder="Costo">
+                  </div>
+                  <div class="form-group">
+                    <label for="precioProd">Precio de Venta</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
                       </div>
+                      <input name="precio" type="number" class="form-control" id="precioProd"
+                        placeholder="Precio de Venta">
                     </div>
-                    <div class="form-group">
-                      <label for="precioProd">Precio de Venta</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">$</span>
-                        </div>
-                        <input name="precio" type="number" class="form-control" id="precioProd"
-                          placeholder="Precio de Venta">
-                      </div>
-                    </div>
-                    <section class="content">
-                      <div class="container-fluid">
-                        <div class="form-group">
-                          <label>Categoria de Articulo</label>
-                          <select class="select" style="width: 100%;" name="categoria">
-                            <option th:each="categoria:${categorias}" selected="selected" th:text="${categoria}">
-                            </option>
-
-                          </select>
-
-                        </div>
-                      </div>
-                    </section>
-                    <section class="content">
-                      <div class="container-fluid">
-                        <div class="form-group">
-                          <label>Unidad de Medida de Articulo</label>
-                          <select class="select" style="width: 100%;" name="unidad">
-                            <option th:each="unidad:${unidades}" selected="selected" th:text="${unidad}">
-                            </option>
-
-                          </select>
-
-                        </div>
-                      </div>
-                    </section>
-                    <!--Informacion del Lote TODO 
-                    <div class="card card-primary">
-                      <div class="card-header">
-                        <h3 class="card-title">Lote</h3>
-                      </div>
+                  </div>
+                  <section class="content">
+                    <div class="container-fluid">
                       <div class="form-group">
-                        <label for="nombreLote">Identificador de Lote</label>
-                        <input name="nombreLote" type="text" class="form-control" id="nombreLote" placeholder="Lote">
-                      </div>
-                      <div class="form-group">
-                        <label>Fecha de Elaboracion:</label>
-                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                          <input name="fechaElaboracion" type="text" class="form-control datetimepicker-input" data-target="#reservationdate" />
-                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Fecha de Vencimiento:</label>
-                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                          <input name="fechaVencimiento" type="text" class="form-control datetimepicker-input" data-target="#reservationdate" />
-                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                 
+                        <label>Categoria de Articulo</label>
+                        <select class="select" style="width: 100%;" name="categoria">
+                          <option th:each="categoria:${categorias}" selected="selected" th:text="${categoria}">
+                          </option>
 
-
-
-                    <div class="form-group">
-                      <label for="listaLotes">Lote</label>
-                      <div>
-
-                        <select id="myselect">
-                          <option value="1">Lote1</option>
-                          <option value="2">Lote2</option>
                         </select>
-                        <a id="agregar-lote" class="fas fa-plus-square"></a>
-                      </div>
-                    </div>
-                  -->
-                    <div class="form-group">
-                      <label for="Image">Imagen</label>
-                      <div class="input-group">
-                        <div class="custom-file">
-                          <input name="foto" type="file" class="custom-file-input" id="Image">
-                          <label class="custom-file-label" for="exampleInputFile">Foto del Articulo</label>
-                        </div>
-                        <div class="input-group-append">
-                          <span class="input-group-text">Upload</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-check">
-                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
-                  </div>
-                  <!-- /.card-body -->
 
-                  <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <a th:href="@{/index}" class="btn btn-danger">Cancelar</a>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="content">
+                    <div class="container-fluid">
+                      <div class="form-group">
+                        <label>Unidad de Medida de Articulo</label>
+                        <select class="select" style="width: 100%;" name="unidad">
+                          <option th:each="unidad:${unidades}" selected="selected" th:text="${unidad}">
+                          </option>
+
+                        </select>
+
+                      </div>
+                    </div>
+                  </section>
+
+                  <div class="form-group">
+                    <label for="Image">Imagen</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input name="foto" type="file" class="custom-file-input" id="Image">
+                        <label class="custom-file-label" for="exampleInputFile">Foto del Articulo</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text">Upload</span>
+                      </div>
+                    </div>
                   </div>
-                </form>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                  </div>
               </div>
-              <!-- /.card -->
+              <!-- /.card-body -->
 
+              <div class="card-footer">
+                <button id="cambiar" type="submit" class="btn btn-primary">Submit</button>
+                <button th:href="@{/index}" type="button" class="btn btn-danger">Cancelar</button>
 
-              <!-- /.card -->
-              <!-- Horizontal Form -->
+              </div>
+              </form>
 
-
-              <!--/.col (left) -->
-              <!-- right column -->
-
-              <!--/.col (right) -->
-            </div>
-            <!-- /.row -->
-          </div><!-- /.container-fluid -->
+              <!-- /.row -->
+            </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
     </div>
@@ -276,177 +237,117 @@
   <div th:insert="fragments/components :: scripts">
 
   </div>
+
+
   <script>
+    function myFunction(id) {
+      $(document).on('click', '.editar', function (event) {
+        event.preventDefault();
+        var boton = $("#cambiar");
+        boton.text("Modificar");
+        $("#formularioProducto").attr("action", "/Articulo/modificar-articulo")
+       
+
+        $("#ingredientes").find(".ingredientes").prop('disabled', false)
+        var option;
+        var nombre;
+        var nombre1;
+
+        nombre = $(this).closest('tr').find('td').each(function () {
+          $(this).parent().find("#PCNombre").each(function () { $(this).text() })
 
 
+        })
+        nombre1 = nombre.parent().find("#ArtNombre").text();
+        id1 = nombre.parent().find("#ArtId").text();
+        costo = nombre.parent().find("#ArtCosto").text();
+        precio = nombre.parent().find("#ArtPrecio").text();
+        categoria = nombre.parent().find("#ArtCategoria").text();
+        fabricante = nombre.parent().find("#ArtFabricante").text();
 
-    $(function () {
-      //Initialize Select2 Elements
-      $('.select2').select2()
-
-      //Initialize Select2 Elements
-      $('.select2bs4').select2({
-        theme: 'bootstrap4'
-      })
-
-      //Datemask dd/mm/yyyy
-      $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-      //Datemask2 mm/dd/yyyy
-      $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-      //Money Euro
-      $('[data-mask]').inputmask()
-
-      //Date picker
-      $('#reservationdate').datetimepicker({
-        format: 'L'
+        $('#idArt').val(id1);
+        $('#nombreProd').val(nombre1);
+        $('#costoProd').val(costo);
+        $('#precioProd').val(precio);
+        $('#categoria').val(categoria);
+        $('#fabricanteProd').val(fabricante);
       });
 
-      //Date and time picker
-      $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+    };
 
-      //Date range picker
-      $('#reservation').daterangepicker()
-      //Date range picker with time picker
-      $('#reservationtime').daterangepicker({
-        timePicker: true,
-        timePickerIncrement: 30,
-        locale: {
-          format: 'MM/DD/YYYY hh:mm A'
-        }
-      })
-      //Date range as a button
-      $('#daterange-btn').daterangepicker(
-        {
-          ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
+
+
+  </script>
+  <script th:inline="javascript">
+    function eliminar(id) {
+      $(document).on('click', '.eliminar', function (event) {
+        event.preventDefault();
+        /*<![CDATA[*/
+        var articulos =/*[[${productos}]]*/"Art";
+var error=/*[[${error}]]*
+        /*]]>*/
+        console.log(event)
+        const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+
+        for (i = 0; i < articulos.length; i++) {
+          if (articulos[i].prodId == id) {
+            console.log("ID Enviado " + id + "articulo buscado " + articulos[i].prodId  )
+
+            var resultado = window.confirm("Esta seguro que desea eliminar el Articulo " + articulos[i].nombre);
+            if (resultado === true) {
+             $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/restArticulo/eliminar/"+id,
+        headers: { 'X-XSRF-TOKEN': csrfToken },
+        data: {
+         
+
         },
-        function (start, end) {
-          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        dataType: "application/json",
+        beforeSend: function () {
+        },
+        success: function (data, textStatus, jqXHR) {
+        console.log("SUCCESS data "+data)
+        console.log("SUCCESS text "+textStatus)
+        console.log("SUCCESS jqxhr "+jqXHR)
+
+        },
+        complete: function (result) {
+          // console.log()
+         // alert(result.responseText);
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("ERROR data "+data)
+        console.log("ERROR text "+textStatus)
+        console.log("ERROR jqxhr "+jqXHR)
+
         }
-      )
-
-      //Timepicker
-      $('#timepicker').datetimepicker({
-        format: 'LT'
-      })
-
-      //Bootstrap Duallistbox
-      $('.duallistbox').bootstrapDualListbox()
-
-      //Colorpicker
-      $('.my-colorpicker1').colorpicker()
-      //color picker with addon
-      $('.my-colorpicker2').colorpicker()
-
-      $('.my-colorpicker2').on('colorpickerChange', function (event) {
-        $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-      })
-
-      $("input[data-bootstrap-switch]").each(function () {
-        $(this).bootstrapSwitch('state', $(this).prop('checked'));
-      })
-
-    })
-    // BS-Stepper Init
-    document.addEventListener('DOMContentLoaded', function () {
-      window.stepper = new Stepper(document.querySelector('.bs-stepper'))
-    })
-
-    // DropzoneJS Demo Code Start
-    Dropzone.autoDiscover = false
-
-    // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-    var previewNode = document.querySelector("#template")
-    previewNode.id = ""
-    var previewTemplate = previewNode.parentNode.innerHTML
-    previewNode.parentNode.removeChild(previewNode)
-
-    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-      url: "/target-url", // Set the url
-      thumbnailWidth: 80,
-      thumbnailHeight: 80,
-      parallelUploads: 20,
-      previewTemplate: previewTemplate,
-      autoQueue: false, // Make sure the files aren't queued until manually added
-      previewsContainer: "#previews", // Define the container to display the previews
-      clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
-    })
-
-    myDropzone.on("addedfile", function (file) {
-      // Hookup the start button
-      file.previewElement.querySelector(".start").onclick = function () { myDropzone.enqueueFile(file) }
-    })
-
-    // Update the total progress bar
-    myDropzone.on("totaluploadprogress", function (progress) {
-      document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
-    })
-
-    myDropzone.on("sending", function (file) {
-      // Show the total progress bar when upload starts
-      document.querySelector("#total-progress").style.opacity = "1"
-      // And disable the start button
-      file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
-    })
-
-    // Hide the total progress bar when nothing's uploading anymore
-    myDropzone.on("queuecomplete", function (progress) {
-      document.querySelector("#total-progress").style.opacity = "0"
-    })
-
-    // Setup the buttons for all transfers
-    // The "add files" button doesn't need to be setup because the config
-    // `clickable` has already been specified.
-    document.querySelector("#actions .start").onclick = function () {
-      myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
-    }
-    document.querySelector("#actions .cancel").onclick = function () {
-      myDropzone.removeAllFiles(true)
-    }
-    // DropzoneJS Demo Code End
-  </script>
-  <script>
-    $(function () {
-      bsCustomFileInput.init();
-    });
-  </script>
-  <script>
-    $("#myselect").selectpicker();
-  </script>
-  <script>
-    $("#agregar-lote").click(function () {
-      var newitemnum = 3;
-      var newitemdesc = "Lote3";
-      $("#myselect").append('<option value="' + newitemnum + '" selected="">' + newitemdesc + '</option>');
-      $("#myselect").selectpicker("refresh");
-    });
-  </script>
-  <script>
-    $("#add-soy-sauce-button").click(function () {
-      var newitemnum = 4;
-      var newitemdesc = "Soy Sauce";
-      $("#myselect").append('<option value="' + newitemnum + '">' + newitemdesc + '</option>');
-      $("#myselect").val(4);
-      $("#myselect").selectpicker("refresh");
-    });
-  </script>
-  <script type="text/javascript">
-    $(function () {
-      $('#datetimepicker3').datetimepicker({
-        format: 'LT'
+       
       });
-    });
+      
+      break;
+            } else {
+              window.alert('Pareces indeciso');
+            }
+           
+          }else{
+           console.log("NO ENCONTRADOS    ID Enviado " + id + "articulo buscado " + articulos[i].prodId  )
+          }
+
+
+        }
+
+      
+
+      });
+
+    };
+
+
+
   </script>
- 
- 
+
 </body>
 
 </html>

@@ -6,44 +6,54 @@
 package com.Stock.Stock.Entidades;
 
 
+import Enum.TipoMovimiento;
+import com.Stock.Stock.Entidades.Producto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.checkerframework.checker.units.qual.degrees;
 
 /**
  *
  * @author rnavas
  */
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class Proveedor {
-    
+public class MovimientoStock implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer proveedorId;
+    private Integer idMov;
+
+    private Integer cantidadIng;
+    private Integer cantidadActual;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaMov;
+
+    private Enum tipoMovimiento;
     
-    private Long CUIT;
-    private String razonSocial;
-    
-    @Temporal(TemporalType.DATE)
-    private Date fechaAlta;
-    
-    @Temporal(TemporalType.DATE)
-    private Date fechaBaja;
-    
-    private Boolean estado;
-    
-    
-    
+    @ManyToOne
+    @JsonBackReference
+    private Producto producto;
+
+    private Double costoNuevo;
+    private Double costoActual;
+
+
 }
+

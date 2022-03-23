@@ -52,18 +52,22 @@
                         </thead>
                         <tbody>
                           <tr th:each="producto:${productos}">
-                            <td th:text="${producto.nombre}"></td>
-                            <td th:text="${producto.fabricante}"></td>
-                            <td th:text="${producto.costo}"></td>
-                            <td th:text="${producto.precioVenta}"></td>
-                            <td th:text="${producto.categoria}"></td>
-                            <td th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
+                            <td id="PSnombre"th:text="${producto.nombre}"></td>
+                            <td id="PSfabricante"th:text="${producto.fabricante}"></td>
+                            <td id="PScosto"th:text="${producto.costo}"></td>
+                            <td id="PSprecio"th:text="${producto.precioVenta}"></td>
+                            <td id="PScategoria"th:text="${producto.categoria}"></td>
+                            <td id="PSimagen" th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
                                 th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil">
                             </td>
                             <td th:unless="${producto.foto!=null}"></td>
-                            <td>
-                              <div class="btn btn-primary">Modificar</div>
-                              <div class="btn btn-success">Dar de Baja</div>
+                            <td id="ModificarProducto">
+                              <button class="btn btn-primary editar"
+                                th:attr="onclick=|myFunction('${producto.prodId}')|"><i
+                                  class="fas fa-solid fa-pen"></i></button>
+                              <button class="btn btn-danger editar"
+                                th:attr="onclick=|eliminar('${producto.prodId}')|"><i
+                                  class="fas fa-solid fa-trash"></i></button>
                             </td>
 
                             </td>
@@ -214,7 +218,7 @@
                   <!-- /.card-body -->
 
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" id="cambiar" class="btn btn-primary">Submit</button>
                     <a th:href="@{/index}" class="btn btn-danger">Cancelar</a>
                   </div>
                 </form>
@@ -255,175 +259,12 @@
   <div th:insert="fragments/components">
 
   </div>
-  <script>
+ 
 
+ 
+ 
 
-
-    $(function () {
-      //Initialize Select2 Elements
-      $('.select2').select2()
-
-      //Initialize Select2 Elements
-      $('.select2bs4').select2({
-        theme: 'bootstrap4'
-      })
-
-      //Datemask dd/mm/yyyy
-      $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-      //Datemask2 mm/dd/yyyy
-      $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-      //Money Euro
-      $('[data-mask]').inputmask()
-
-      //Date picker
-      $('#reservationdate').datetimepicker({
-        format: 'L'
-      });
-
-      //Date and time picker
-      $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
-
-      //Date range picker
-      $('#reservation').daterangepicker()
-      //Date range picker with time picker
-      $('#reservationtime').daterangepicker({
-        timePicker: true,
-        timePickerIncrement: 30,
-        locale: {
-          format: 'MM/DD/YYYY hh:mm A'
-        }
-      })
-      //Date range as a button
-      $('#daterange-btn').daterangepicker(
-        {
-          ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
-        },
-        function (start, end) {
-          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-        }
-      )
-
-      //Timepicker
-      $('#timepicker').datetimepicker({
-        format: 'LT'
-      })
-
-      //Bootstrap Duallistbox
-      $('.duallistbox').bootstrapDualListbox()
-
-      //Colorpicker
-      $('.my-colorpicker1').colorpicker()
-      //color picker with addon
-      $('.my-colorpicker2').colorpicker()
-
-      $('.my-colorpicker2').on('colorpickerChange', function (event) {
-        $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-      })
-
-      $("input[data-bootstrap-switch]").each(function () {
-        $(this).bootstrapSwitch('state', $(this).prop('checked'));
-      })
-
-    })
-    // BS-Stepper Init
-    document.addEventListener('DOMContentLoaded', function () {
-      window.stepper = new Stepper(document.querySelector('.bs-stepper'))
-    })
-
-    // DropzoneJS Demo Code Start
-    Dropzone.autoDiscover = false
-
-    // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-    var previewNode = document.querySelector("#template")
-    previewNode.id = ""
-    var previewTemplate = previewNode.parentNode.innerHTML
-    previewNode.parentNode.removeChild(previewNode)
-
-    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-      url: "/target-url", // Set the url
-      thumbnailWidth: 80,
-      thumbnailHeight: 80,
-      parallelUploads: 20,
-      previewTemplate: previewTemplate,
-      autoQueue: false, // Make sure the files aren't queued until manually added
-      previewsContainer: "#previews", // Define the container to display the previews
-      clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
-    })
-
-    myDropzone.on("addedfile", function (file) {
-      // Hookup the start button
-      file.previewElement.querySelector(".start").onclick = function () { myDropzone.enqueueFile(file) }
-    })
-
-    // Update the total progress bar
-    myDropzone.on("totaluploadprogress", function (progress) {
-      document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
-    })
-
-    myDropzone.on("sending", function (file) {
-      // Show the total progress bar when upload starts
-      document.querySelector("#total-progress").style.opacity = "1"
-      // And disable the start button
-      file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
-    })
-
-    // Hide the total progress bar when nothing's uploading anymore
-    myDropzone.on("queuecomplete", function (progress) {
-      document.querySelector("#total-progress").style.opacity = "0"
-    })
-
-    // Setup the buttons for all transfers
-    // The "add files" button doesn't need to be setup because the config
-    // `clickable` has already been specified.
-    document.querySelector("#actions .start").onclick = function () {
-      myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
-    }
-    document.querySelector("#actions .cancel").onclick = function () {
-      myDropzone.removeAllFiles(true)
-    }
-    // DropzoneJS Demo Code End
-  </script>
-  <script>
-    $(function () {
-      bsCustomFileInput.init();
-    });
-  </script>
-  <script>
-    $("#myselect").selectpicker();
-  </script>
-  <script>
-    $("#agregar-lote").click(function () {
-      var newitemnum = 3;
-      var newitemdesc = "Lote3";
-      $("#myselect").append('<option value="' + newitemnum + '" selected="">' + newitemdesc + '</option>');
-      $("#myselect").selectpicker("refresh");
-    });
-  </script>
-  <script>
-    $("#add-soy-sauce-button").click(function () {
-      var newitemnum = 4;
-      var newitemdesc = "Soy Sauce";
-      $("#myselect").append('<option value="' + newitemnum + '">' + newitemdesc + '</option>');
-      $("#myselect").val(4);
-      $("#myselect").selectpicker("refresh");
-    });
-  </script>
-  <script type="text/javascript">
-    $(function () {
-      $('#datetimepicker3').datetimepicker({
-        format: 'LT'
-      });
-    });
-  </script>
+ 
   <script>
     (() => {
       "use strict";
@@ -439,19 +280,138 @@
       }, false);
     })()
   </script>
- 
+
+
+   <script th:inline="javascript">
+    function myFunction(id) {
+
+      $(document).one('click', '.editar', function (event) {
+        event.preventDefault();
+       
+        $("#costoProd").prop('disabled', true)
+
+
+       
+        $("#formularioProducto").attr("action", "/ProductoCompuesto/modificar-productoCompuesto")
+        var BTN = $("#cambiar")
+
+
+        BTN.text("Modificar")
+
+
+
+        $("#agregadostabla").empty();
+
+
+        $("#ingredientes").find(".ingredientes").prop('disabled', false)
+        var option;
+        var nombre;
+        var nombre1;
+
+        nombre = $(this).closest('tr').find('td').each(function () {
+          $(this).parent().find("#PCNombre").each(function () { $(this).text() })
+
+
+        })
+        nombre1 = nombre.parent().find("#Psnombre").text();
+
+        costo = nombre.parent().find("#PScosto").text();
+        precio = nombre.parent().find("#Psprecio").text();
+        categoria = nombre.parent().find("#Pscategoria").text();
+        prodId = nombre.parent().find("#PCId").text();
+        var image = new Image;
+        $(".htmlChunk img.Thumb")
+        var img = nombre.parent().find("#PCImage");
+
+
+       
+
+        const div = document.querySelector("#imagen")
+        if (img.length == 0) {
+          console.log("VACIO")
+          div.innerHTML = ""
+        } else {
+          img1 = img[0].innerHTML;
+          console.log(img1)
+
+          const div = document.querySelector("#imagen")
+          div.innerHTML = img1
+          // $("#imagen").append("<img class='d-inline-block align-top'th:src='"+prueba+"' height='60' width='80' alt='Imagen de Perfil'>")
+
+        }
+        // console.log("STRING "+ prueba)
+        $('#nombreProd').val(nombre1);
+
+        $('#precioProd').val(precio);
+        $('#categoria').val(categoria);
+        $('#prodId').val(prodId);
+        $("#imagen").val(image)
+        var nuevosing = ingredientes;
+
+        $.getJSON("http://localhost:8080/ingredientes/llenardata/" + id, function (result) {
+
+
+
+
+
+          for (var i = 0; i < result.length; i++) {
+
+            console.log(result[i])
+            console.log(result[i].articulo.prodId)
+
+            if (!ingredientes.includes(result[i])) {
+              nuevosing = nuevosing.filter(function (x) { return x.prodId != result[i].articulo.prodId; });
+
+            }
+            markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'>" + result[i].cantidad + "</td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+            $("#agregadostabla").append(markup);
+          }
+
+          for (i = 0; i < nuevosing.length; i++) {
+            option = "<option id='" + nuevosing[i].prodId + "' text='" + nuevosing[i].nombre + "'value='" + nuevosing[i].prodId + "," + nuevosing[i].fabricante + "," + nuevosing[i].unidad + "," + nuevosing[i].costo + "'>" + nuevosing[i].nombre + "</option>";
+            $("#selectprueba").append(option)
+          }
+          var indice = document.getElementById("agregadostabla").rows.length;
+          var costo1 = 0.0;
+          for (i = 0; i < indice; i++) {
+            //console.log(document.getElementById("agragadostabla").rows[i].cells[5].innerHTML)
+            costo1 += parseFloat(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
+          }
+          $("#costototal").val(costo1);
+          $('#costoProd').val(costo1);
+
+          $(function () {
+            $(".cant").click(function () {
+              var OriginalContent = $(this).text();
+              $(this).addClass("cellEditing");
+              $(this).html("<input type='text' value='" + OriginalContent + "' />");
+              $(this).children().first().focus();
+              $(this).children().first().keypress(function (e) {
+                if (e.which == 13) {
+                  var newContent = $(this).val();
+                  $(this).parent().text(newContent);
+                  $(this).parent().removeClass("cellEditing");
+                }
+              });
+              $(this).children().first().blur(function () {
+                $(this).parent().text(OriginalContent);
+                $(this).parent().removeClass("cellEditing");
+              });
+              $(this).find('input').click(function (e) {
+                e.stopPropagation();
+              });
+            });
+          });
+
+
+        });
+      });
+
+    }
+
+
+  </script>
 </body>
 
 </html>
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
+

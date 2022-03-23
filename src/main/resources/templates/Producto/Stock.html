@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/components :: head">
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+  <title>Productos Compuestos</title>
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <div th:insert="fragments/components :: asidebar"></div>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <div th:insert="fragments/components :: sidebar"></div>
+
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <section class="content">
+        <div class="container-fluid">
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h4 id="productocant"></h4>
+
+                  <p>Productos</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a onclick="mostrarProductos()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+           
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h4 id="articuloscant"></h4>
+
+                  <p>Articulos</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a onclick="mostrarArticulos()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+
+              </div>
+            </div>
+            
+            <!-- ./col -->
+          </div>
+        
+          <!-- /.row (main row) -->
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+
+          <!-- Main content -->
+         
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+
+
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">Lista de Productos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div id="refrescarStock" class="card-body">
+                      <table id="TablaProductos"  class="table table-bordered table-striped">
+                        
+                        <thead>
+                          <tr>
+                            <th>Producto</th>
+                            <th>Costo</th>
+                            <th>Precio Venta</th>
+                            <th>Categoria</th>
+                            <th>Imagen</th>
+                            <th>Stock</th>
+                            <th>Acciones</th>
+
+
+                          </tr>
+                        </thead>
+                       
+                          <tbody>
+                            <tr id="tablaPC" th:each="producto:${productos}">
+                              <td id="PCId" th:value="${producto.prodId}" th:class="${producto.prodId}"
+                                style="display:none" th:text="${producto.prodId}"></td>
+                              <td id="PCNombre" th:value="${producto.nombre}" th:text="${producto.nombre}"></td>
+                              <td id="PCCosto" th:text="${producto.costo}"></td>
+                              <td id="PCPrecio" th:text="${producto.precioVenta}"></td>
+                              <td id="PCCategoria" th:text="${producto.categoria}"></td>
+
+                              <td id="PCImage" th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
+                                  th:src="@{/foto/__${producto.prodId}__}" height="60" width="80"
+                                  alt="Imagen de Perfil">
+                              </td>
+                              <td th:unless="${producto.foto!=null}"></td>
+                              <td id="PCStock" th:value="${producto.nombre}" th:text="${producto.stock}"></td>
+
+                              <td id="ModificarProducto">
+                                <button class="btn btn-primary editar"
+                                  th:attr="onclick=|myFunction('${producto.prodId}')|"><i
+                                    class="fas fa-solid fa-pen"></i></button>
+                                <button class="btn btn-danger editar"
+                                  th:attr="onclick=|eliminar('${producto.prodId}')|"><i
+                                    class="fas fa-solid fa-trash"></i></button>
+                              </td>
+
+
+
+
+
+
+
+                            </tr>
+
+                          </tbody>
+                        
+                      </div>
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+           
+            <!-- /.container-fluid -->
+          </section>
+          <!-- /.content -->
+      
+
+         
+      </section>
+
+      <!-- Main content -->
+      <div id="movimientos" class="card-body">
+        
+    
+        <!-- /.row -->
+      </div>
+  <!-- /.content -->
+
+  </div>
+
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+
+      <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  <div th:insert="fragments/components :: scripts">
+
+  </div>
+
+
+  <script>
+    $(document).ready(function() {
+      $.getJSON("http://localhost:8080/Stock1/articulos/", function (result) {
+        var art="<h4>"+result+"</h4>"
+      document.getElementById("articuloscant").innerHTML=art;
+      var prod=0
+      })
+      $.getJSON("http://localhost:8080/Stock1/productos/", function (result) {
+        var art="<h4>"+result+"</h4>"
+      document.getElementById("productocant").innerHTML=art;
+      
+    })
+     
+    });
+  </script>
+
+
+
+
+
+
+
+<script>
+  function mostrarArticulos(){
+  $("#refrescarStock").load("/Articulo/Stock #TablaProductos1", function (response, status, xhr) {
+
+  })
+
+}
+</script>
+<script>
+  function mostrarProductos(){
+    $("#refrescarStock").load("/Producto/Stock #TablaProductos1", function (response, status, xhr) {
+
+  })
+}
+</script>
+<script>
+  function movimientos(id){
+   
+    
+      
+    $("#movimientos").load("/Stock/Movimientos/"+id+" #movimientos", function (response, status, xhr) {
+
+  })
+
+
+  }
+</script>
+<script>
+  $(document).ready(function () {
+
+
+    $('#TablaProductos').DataTable(
+      {
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "columnDefs": [
+          {
+            "orderable": false, "targets": 6 ,
+
+          }
+        ],
+        "dom": 'Bfrtip',
+        "buttons": [
+
+          'copyHtml5',
+          'csvHtml5',
+          'excelHtml5',
+          'pdfHtml5',
+          'print'
+        ]
+      }
+    );
+  })
+</script>
+
+
+
+
+
+  <script th:inline="javascript">
+  function ModificarStock(id) {
+
+    $(document).one('click', '.editar', function (event) {
+        event.preventDefault();
+  
+    var stock = $(this).closest('tr').find('td').each(function () {
+        $(this).parent().find("#ArtNombre").each(function () { $(this).text() })
+
+
+      })
+      console.log(stock)
+
+      var stock = stock.parent().find("#quantity").val();
+      const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+    
+
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/Stock1/modificarStock/",
+      headers: { 'X-XSRF-TOKEN': csrfToken },
+      data: {
+        id: id,
+        stock: stock
+
+      },
+      dataType: "application/json",
+      beforeSend: function () {
+      },
+      success: function (data, textStatus, jqXHR) {
+      },
+      complete: function (result) {
+       
+        alert(result.responseText);
+       
+  }
+})
+
+  
+  })
+}
+</script>
+<script th:inline="javascript">
+  function inc(id) {
+
+    $(document).one('click', '.editar', function (event) {
+        event.preventDefault();
+  
+  
+    var costo = $(this).closest('tr').find('td').each(function () {
+        $(this).parent().find("#ArtNombre").each(function () { $(this).text() })
+
+
+      })
+      
+
+      var a=(Number(costo.parent().find("#quantity").val()))+1;
+      costo.parent().find("#quantity").val(a)
+      
+    
+
+    })
+  
+}
+</script>
+<script th:inline="javascript">
+  function dec(id) {
+
+    $(document).one('click', '.editar', function (event) {
+        event.preventDefault();
+  
+  
+    var costo = $(this).closest('tr').find('td').each(function () {
+        $(this).parent().find("#ArtNombre").each(function () { $(this).text() })
+
+
+      })
+      
+
+      var a=(costo.parent().find("#quantity").val())-1;
+      costo.parent().find("#quantity").val(a)
+      
+    
+
+    })
+  
+}
+</script>
+
+
+</body>
+
+</html>

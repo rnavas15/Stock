@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Starter</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+    integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
+    integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <div th:insert="fragments/components :: asidebar"></div>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <div th:insert="fragments/components :: sidebar"></div>
+
+
+
+
+
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+
+
+
+
+          <!-- Main content -->
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+
+
+                  <div class="card">
+                    <div class="card-header">
+
+                      <h3 class="card-title">Lista de Artículos</h3>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                      <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>Articulo</th>
+                            <th>Fabricante</th>
+                            <th>Costo</th>
+                            <th>Precio Venta</th>
+                            <th>Categoria</th>
+                            <th>Unidad de Medida</th>
+                            <th>Imagen</th>
+                            <th>Acciones</th>
+
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr th:each="producto:${productos}">
+                            <td id="id" th:text="${producto.prodId}" style="display:none"></td>
+                            <td id="nombre" th:text="${producto.nombre}"></td>
+                            <td id="fabricante" th:text="${producto.fabricante}"></td>
+                            <td th:text="${producto.costo}"></td>
+                            <td th:text="${producto.precioVenta}"></td>
+                            <td th:text="${producto.categoria}"></td>
+                            <td th:text="${producto.unidad}"></td>
+                            <td th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
+                                th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil">
+                            </td>
+                            <td th:unless="${producto.foto!=null}"></td>
+                            <td>
+                              <div class="btn btn-primary"  id="ModificarProducto">Modificar
+                              </div>
+                              <button class="btn btn-success">Dar de Baja</button>
+                            </td>
+
+
+                          </tr>
+
+                        </tbody>
+
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+          </section>
+          <!-- /.content -->
+
+
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>NUEVO ARTICULO </h1>
+            </div>
+
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+              <!-- general form elements -->
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Producto</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form id="formularioProducto" class="needs-validation mb-4" th:action="@{/Articulo/crear-articulo}"
+                  method="post" autocomplete="off" novalidate enctype="multipart/form-data">
+                  <div class="card-body">
+                    <div class="form-group mb-3">
+                      <label for="nombreArt">Nombre del Articulo</label>
+                      <input name="nombre" type="text" class="form-control" required id="nombreProd"
+                        placeholder="Nombre" readonly="readonly">
+                      <div class="invalid-feedback text-start">El nombre es obligatorio</div>
+                    </div>
+                    <div class="form-group">
+                      <label for="fabricanteProd">Fabricante</label>
+                      <input name="fabricante" type="text" class="form-control" required id="fabricanteProd"
+                        placeholder="Fabricante" readonly="readonly">
+                      <div class="invalid-feedback text-start">El Fabricante es obligatorio</div>
+                    </div>
+                    <div class="form-group">
+                      <label for="costoProd">Costo</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input name="costo" type="number" class="form-control" id="costoProd" placeholder="Costo">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="precioProd">Precio de Venta</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input name="precio" type="number" class="form-control" id="precioProd"
+                          placeholder="Precio de Venta" readonly="readonly">
+                      </div>
+                    </div>
+                    <section class="content">
+                      <div class="container-fluid">
+                        <div class="form-group">
+                          <label>Categoria de Articulo</label>
+                          <select class="select" style="width: 100%;" name="categoria">
+                            <option disabled id="categoria" th:each="categoria:${categorias}" selected="selected"
+                              th:text="${categoria}">
+                            </option>
+
+                          </select>
+
+                        </div>
+                      </div>
+                    </section>
+                    <section class="content">
+                      <div class="container-fluid">
+                        <div class="form-group">
+                          <label>Unidad de Medida de Articulo</label>
+                          <select class="select" style="width: 100%;" name="unidad">
+                            <option disabled id="unidad" th:each="unidad:${unidades}" selected="selected"
+                              th:text="${unidad}">
+                            </option>
+
+                          </select>
+
+                        </div>
+                      </div>
+                    </section>
+
+                    <div class="form-group">
+                      <label for="Image">Imagen</label>
+                      <div class="input-group">
+                        <div class="custom-file">
+                          <input name="foto" type="file" class="custom-file-input" id="Image">
+                          <label class="custom-file-label" for="exampleInputFile">Foto del Articulo</label>
+                        </div>
+                        <div class="input-group-append">
+                          <span class="input-group-text">Upload</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a th:href="@{/index}" class="btn btn-danger">Cancelar</a>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card -->
+
+
+              <!-- /.card -->
+              <!-- Horizontal Form -->
+
+
+              <!--/.col (left) -->
+              <!-- right column -->
+
+              <!--/.col (right) -->
+            </div>
+            <div class="col-md-6">
+              <!-- general form elements -->
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Ingredientes</h3>
+                </div>
+                <section class="content">
+                  <div class="container-fluid">
+                    <div class="form-group">
+                      <label>Categoria de Articulo</label>
+                      <div class="row">
+                        <div class="col-md-10">
+                          <select placeholder="Seleccione un producto" class="select" id="selectprueba"
+                            style="width: 100%;" name="categoria">
+
+                            </option>
+                            <option id="opcion" th:each="producto:${productos}" th:text="${producto.nombre}"
+                              th:value="${producto.prodId}">
+                            </option>
+
+                          </select>
+                        </div>
+                        <div class="col-md-2">
+                          <button id="agregar" class="fas fa-plus"></button>
+                        </div>
+
+                      </div>
+                    </div>
+
+                </section>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form id="formularioProducto" class="needs-validation mb-4" th:action="@{/Articulo/crear-articulo}"
+                  method="post" autocomplete="off" novalidate enctype="multipart/form-data">
+                  <table id="agregados" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Articulo</th>
+                        <th>Fabricante</th>
+                        <th>Unidad de Medida</th>
+                        <th>Cantidad</th>
+
+
+
+                      </tr>
+                    </thead>
+                    <tbody id="agragadostabla">
+                      <tr>
+                        <td style="display:none" id="prueba" class="idagregar">1</td>
+                        <td>Azucar</td>
+                        <td>Ledesma</td>
+                        <td>KG</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                  <!-- /.card-body -->
+
+                  <div class="card-footer">
+                    <button id="agregaringredientes" class="btn btn-primary">Aregar</button>
+                    <a th:href="@{/index}" class="btn btn-danger">Cancelar</a>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card -->
+
+
+              <!-- /.card -->
+              <!-- Horizontal Form -->
+
+
+              <!--/.col (left) -->
+              <!-- right column -->
+
+              <!--/.col (right) -->
+            </div>
+            <!-- /.row -->
+          </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+      </div>
+      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+  <div>
+    <script th:src="@{plugins/chart.js/Chart.min.js}"></script>
+    <!-- Sparkline -->
+    <script th:src="@{plugins/sparklines/sparkline.js}"></script>
+    <!-- JQVMap -->
+    <script th:src="@{plugins/jqvmap/jquery.vmap.min.js}"></script>
+    <script th:src="@{plugins/jqvmap/maps/jquery.vmap.usa.js}"></script>
+    <!-- jQuery Knob Chart -->
+    <script th:src="@{plugins/jquery-knob/jquery.knob.min.js}"></script>
+    <!-- daterangepicker -->
+    <script th:src="@{plugins/daterangepicker/daterangepicker.js}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script th:src="@{plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+    <!-- Summernote -->
+    <script th:src="@{plugins/summernote/summernote-bs4.min.js}"></script>
+    <!-- overlayScrollbars -->
+    <script th:src="@{plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+    <!-- AdminLTE App -->
+    <script th:src="@{dist/js/adminlte.js}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script th:src="@{dist/js/demo.js}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script th:src="@{dist/js/pages/dashboard.js}"></script>
+    <script th:src="@{https://code.jquery.com/jquery-2.1.3.min.js}"></script>
+    <!-- jQuery -->
+    <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+    <!-- Bootstrap 4 -->
+    <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <!-- bs-custom-file-input -->
+    <script th:src="@{/plugins/bs-custom-file-input/bs-custom-file-input.min.js}"></script>
+    <!-- AdminLTE App -->
+    <script th:src="@{/dist/js/adminlte.min.js}"></script>
+    <!-- Page specific script -->
+
+    <script th:src="@{/plugins/select2/js/select2.full.min.js}"></script>
+
+    <script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
+    <script th:src="@{/plugins/moment/moment.min.js}"></script>
+    <script th:src="@{/plugins/inputmask/jquery.inputmask.min.js}"></script>
+
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    $("#agregar").click(function () {
+
+      var a = $("#ModificarProducto").val();
+      $.getJSON("http://localhost:8080/llenardata", function (result) {
+
+
+
+        $.each(result, function (i, field) {
+
+
+          if (a == field.prodId) {
+            console.log(field)
+            //   console.log(consola)
+
+            //console.log(a)
+            $('#nombreProd').val(field.nombre);
+            $('#fabricanteProd').val(field.fabricante);
+            $('#costoProd').val(field.costo);
+            $('#precioProd').val(field.precioVenta);
+            $('#categoria').val(field.categoria);
+            $('#unidad').val(field.unidad);
+            console.log(field.prodId);
+
+            //var name = $("#name").val();
+            //var email = $("#email").val();
+            var markup = "<tr><td  style='display:none' id='prueba' class='idagregar'>" + field.prodId + "</td><td>" + field.nombre + "</td><td>" + field.fabricante + "</td><td>" + field.unidad + "</td></tr>";
+            $("#agragadostabla").append(markup);
+
+
+            //$("#nombreagregados").append(field.nombre);
+            //$("#fabricanteagregados").append(field.fabricante);
+            // $("#unidadagregados").append(field.unidad);
+          }
+
+
+
+          // console.log(field)
+
+
+        });
+      });
+
+    });
+
+  </script>
+  $("button").click(function(){
+  $.post("demo_test_post.asp",
+  {
+  name: "Donald Duck",
+  city: "Duckburg"
+  },
+  function(data, status){
+  alert("Data: " + data + "\nStatus: " + status);
+  });
+  });
+  <script>
+    $('#agregaringredientes').click(function (e) {
+      e.preventDefault();
+
+      const valores = new Array();
+
+
+      $(".idagregar").parent("tr").find("#prueba").each(function () {
+
+        valores.push($(this).html());
+      })
+
+
+      let token = $("meta[name='_csrf']").attr("content");
+      let header = $("meta[name='_csrf_header']").attr("content");
+
+
+
+      // Object key string interpolation by {[header]:token} works with ES6
+      fetch("http://localhost:8080/cargarIngredientes", {
+        method: "POST",
+        headers: {
+          [header]: token,
+          "charset": "UTF-8",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(valores)
+      }).then(res => console.log(res)).catch(err => console.log(err))
+
+
+
+
+      alert(valores);
+
+    });
+
+  </script>
+
+  <script>
+    var jq14 = jQuery.noConflict(true);
+    $(document).ready(function () {
+      $('#selectprueba').selectize({
+        sortField: 'text'
+      });
+    }(jq14));
+  </script>
+
+</body>
+
+</head>

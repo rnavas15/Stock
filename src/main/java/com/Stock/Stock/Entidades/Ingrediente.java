@@ -5,6 +5,8 @@
  */
 package com.Stock.Stock.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,18 +24,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Ingrediente{
+public class Ingrediente implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
     @ManyToOne
+    @JsonManagedReference
     private Articulo articulo;
 
     @ManyToOne
     private ProductoCompuesto productoCompuesto;
     
-    private Integer cantidad;
+    private Double cantidad;
     
     
     

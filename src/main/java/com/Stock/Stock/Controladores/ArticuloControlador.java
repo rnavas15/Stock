@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,14 +45,28 @@ public class ArticuloControlador {
     }
     
     @PostMapping("/crear-articulo")
-    public String crearArticulo(ModelMap modelo,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria,@RequestParam String unidad) throws Exception{
+    public String crearArticulo(ModelMap modelo,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam (defaultValue = "0")Double costo, @RequestParam (defaultValue = "0") Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria,@RequestParam String unidad) throws Exception{
         
         productoServicio.crearArticulo(fabricante,0 , nombre, costo, precio,foto,categoria,unidad);
         modelo.put("articulos",productoServicio.buscarArticulos());
-        return "redirect:";
+        return "redirect:/Articulo";
     }
     
-    
+    @PostMapping("/modificar-articulo")
+    public String crearArticulo(ModelMap modelo,@RequestParam (required = false)  String id ,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria,@RequestParam String unidad) throws Exception{
+  
+        productoServicio.modificarArticulo(Integer.valueOf(id),fabricante,0 , nombre, costo, precio,foto,categoria,unidad);
+        modelo.put("articulos",productoServicio.buscarArticulos());
+        return "redirect:";
+    }
+    @RequestMapping("/Stock")
+    public String recargar(ModelMap modelo){
+                 
+         modelo.put("categorias", Categoria.values());
+        modelo.put("unidades", UnidadesDeMedida.values());
+        modelo.put("productos",productoServicio.buscarArticulos());
+       return  "/Producto/Refrescar";
+    }
     
 }
 

@@ -5,10 +5,14 @@
  */
 package com.Stock.Stock.Entidades;
 
+import Enum.UnidadesDeMedida;
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -18,18 +22,21 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class ProductoStandar extends Producto{
+@Getter
+@Setter
+public class ProductoStandar extends Producto implements Serializable{
     
    private String fabricante;
    private Integer stock;
+    private Enum unidad;
 
-    public ProductoStandar(String fabricante, Integer stock, String nombre, Double costo, Double precioVenta, List<Movimiento> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
+    public ProductoStandar(String fabricante, Integer stock, String nombre, Double costo, Double precioVenta, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
         super(nombre, costo, precioVenta, movimiento, lote, detallesGasto, detallesPedido);
         this.fabricante = fabricante;
         this.stock = stock;
+        this.unidad=UnidadesDeMedida.UN;
     }
-
+   
   
 
 

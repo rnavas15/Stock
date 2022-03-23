@@ -1,0 +1,39 @@
+<script>
+    function myFunction(id) {
+      $(document).on('click', '.editar', function (event) {
+        event.preventDefault();
+        var boton = $("#cambiar");
+        boton.text("Modificar");
+        $("#formularioProducto").attr("action", "/Articulo/modificar-articulo")
+       
+
+        $("#ingredientes").find(".ingredientes").prop('disabled', false)
+        var option;
+        var nombre;
+        var nombre1;
+
+        nombre = $(this).closest('tr').find('td').each(function () {
+          $(this).parent().find("#PCNombre").each(function () { $(this).text() })
+
+
+        })
+        nombre1 = nombre.parent().find("#ArtNombre").text();
+        id1 = nombre.parent().find("#ArtId").text();
+        costo = nombre.parent().find("#ArtCosto").text();
+        precio = nombre.parent().find("#ArtPrecio").text();
+        categoria = nombre.parent().find("#ArtCategoria").text();
+        fabricante = nombre.parent().find("#ArtFabricante").text();
+
+        $('#idArt').val(id1);
+        $('#nombreProd').val(nombre1);
+        $('#costoProd').val(costo);
+        $('#precioProd').val(precio);
+        $('#categoria').val(categoria);
+        $('#fabricanteProd').val(fabricante);
+      });
+
+    };
+
+
+
+  </script>

@@ -38,21 +38,37 @@ public class ProductoCompuestoControlador {
     public String ProductoCompuesto(ModelMap modelo){
                  
         modelo.put("categorias", Categoria.values());
+        modelo.put("articulos",productoServicio.buscarArticulos());
         modelo.put("unidades", UnidadesDeMedida.values());
         modelo.put("productos",productoServicio.buscarProductosCompuestos());
         return "/Producto/productoCompuesto";
     }
     
     @PostMapping("/crear-productoCompuesto")
-    public String crearProductoCompuesto(ModelMap modelo,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria) throws Exception{
+    public String crearProductoCompuesto(ModelMap modelo,@RequestParam String nombre,@RequestParam(defaultValue = "0" ) Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria) throws Exception{
         
-        productoServicio.crearProductoCompuesto(fabricante,0 , nombre, costo, precio,foto,categoria);
+        productoServicio.crearProductoCompuesto(nombre, costo, precio,foto,categoria);
+        modelo.put("articulos",productoServicio.buscarArticulos());
         modelo.put("productos",productoServicio.buscarProductosCompuestos());
         return "redirect:";
     }
     
-    
-    
+    @PostMapping("/modificar-productoCompuesto")
+    public String modificarProductoCompuesto(ModelMap modelo,@RequestParam Integer prodId, @RequestParam String nombre,@RequestParam(defaultValue = "0" ) Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria) throws Exception{
+        
+        productoServicio.modificarProductoCompuesto(prodId,nombre, costo, precio,foto,categoria);
+        
+        modelo.put("articulos",productoServicio.buscarArticulos());
+        modelo.put("productos",productoServicio.buscarProductosCompuestos());
+        return "redirect:";
+    }
+
+    @RequestMapping("/Refrescar")
+    public String recargar(ModelMap modelo){
+                 
+        modelo.put("productosA",productoServicio.buscarProductosCompuestos());
+       return  "/Producto/Refrescar";
+    }
 }
 
 

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+
+</head>
+
+<body>
+
+
+  <div id="refrescar" class="card-body">
+    <table id="TablaProductos" class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Costo</th>
+          <th>Precio Venta</th>
+          <th>Categoria</th>
+          <th>Imagen</th>
+          <th>Acciones</th>
+
+
+
+
+        </tr>
+      </thead>
+      <div>
+        <tbody>
+          <tr id="tablaPC" th:each="producto:${productosA}">
+            <td id="PCId" th:value="${producto.prodId}" th:class="${producto.prodId}" style="display:none"
+              th:text="${producto.prodId}"></td>
+            <td id="PCNombre" th:value="${producto.nombre}" th:text="${producto.nombre}"></td>
+            <td id="PCCosto" th:text="${producto.costo}"></td>
+            <td id="PCPrecio" th:text="${producto.precioVenta}"></td>
+            <td id="PCCategoria" th:text="${producto.categoria}"></td>
+
+            <td id="PCImage" th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
+                th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil">
+            </td>
+            <td th:unless="${producto.foto!=null}"></td>
+
+            <td id="ModificarProducto">
+              <button class="btn btn-primary editar" th:attr="onclick=|myFunction('${producto.prodId}')|"><i
+                  class="fas fa-solid fa-pen"></i></button>
+              <button class="btn btn-danger editar" th:attr="onclick=|eliminar('${producto.prodId}')|"><i
+                  class="fas fa-solid fa-trash"></i></button>
+            </td>
+
+
+
+
+
+
+
+          </tr>
+
+        </tbody>
+      </div>
+    </table>
+  </div>
+
+
+  <div id="refrescarStock" class="card-body">
+    <table id="TablaProductos1" class="table table-bordered table-striped">
+
+      <thead>
+        <tr>
+          <th>Articulo</th>
+          <th>Fabricante</th>
+          <th>Costo</th>
+          <th>Precio Venta</th>
+          <th>Categoria</th>
+          <th>Unidad de Medida</th>
+          <th>Imagen</th>
+          <th>Stock</th>
+          <th>Acciones</th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="tablaPC" th:each="producto:${productos}">
+          <td id="ArtId" th:value="${producto.prodId}" th:class="${producto.prodId}" style="display:none"
+            th:text="${producto.prodId}" readonly></td>
+          <td id="ArtNombre" th:text="${producto.nombre}"></td>
+          <td id="ArtFabricante" th:text="${producto.fabricante}"></td>
+          <td id="ArtCosto" th:text="${producto.costo}"></td>
+          <td id="ArtPrecio" th:text="${producto.precioVenta}"></td>
+          <td id="ArtCategoria" th:text="${producto.categoria}"></td>
+          <td th:text="${producto.unidad}"></td>
+          <td th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
+              th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil">
+          </td>
+          <td th:unless="${producto.foto!=null}"></td>
+          <td id="ArtStock">
+            
+              <button class="btn btn-primary editar" th:attr="onclick=|dec('${producto.prodId}')|"><i
+                class="fas fa-solid fa-minus"></i></button>
+              <input type="text" name="quantity" id="quantity" th:value="${producto.stock}">
+              <button class="btn btn-primary editar" th:attr="onclick=|inc('${producto.prodId}')|"><i
+                class="fas fa-solid fa-plus"></i></button>
+       
+
+
+          </td>
+
+          <td id="ModificarProducto">
+            <button class="btn btn-primary editar" th:attr="onclick=|ModificarStock('${producto.prodId}')|"><i
+                class="fas fa-solid fa-check"></i></button>
+            <button class="btn btn-danger mov" th:attr="onclick=|movimientos('${producto.prodId}')|"><i
+                class="fas fa-solid fa-chart-bar"></i></button>
+          </td>
+
+          
+
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+  <div id="movimientos" class="card-body">
+    <table id="MovimientosStock" class="table table-bordered table-striped">
+
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Movimiento</th>
+          <th>Costo Anterior</th>
+          <th>Costo Actualizado</th>
+          <th>Stock Anterior</th>
+          <th>Stock Actualizada</th>
+          <th>Fecha de Actualizacion</th>
+              
+        </tr>
+    <h3 th:if="${error!=null}" th:text="${error}" style="color: red; text-align: center;" ></h3>
+
+      </thead>
+      <tbody>
+        <tr  th:each="movimiento:${movimientos}">
+          <td th:text="${movimiento.producto.nombre}"></td>
+          <td th:text="${movimiento.tipoMovimiento}"></td>
+          <td th:text="${movimiento.costoActual}"></td>
+          <td th:text="${movimiento.costoNuevo}"></td>
+          <td th:text="${movimiento.cantidadActual}"></td>
+          <td th:text="${movimiento.cantidadIng}"></td>
+          <td th:text="${movimiento.fechaMov}"></td>
+      
+        </tr>
+        
+      </tbody>
+
+    </table>
+    <!-- /.row -->
+  </div>
+
+
+  
+
+</body>
+
+</html>
