@@ -1,12 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:insert="fragments/components :: head">
   <title>Articulos</title>
 
+
+
 </head>
 
 <body class="hold-transition sidebar-mini">
+
   <div class="wrapper">
     <!-- Navbar -->
     <div th:insert="fragments/components :: asidebar"></div>
@@ -20,231 +24,309 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+      
+
+
       <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <div class="container-fluid">
+      <div class="contenedor">
+        <ul class="ul ">
+          <li class="li active"><a href="#ProveedoresT">Proveedores</a></li>
+          <li class="li"><a href="#Historial">Historial</a></li>
+        </ul>
+        <div class="subcontenedor">
+          <div id="ProveedoresT" class="bloque active">
+            <section class="content-header">
+              <div class="container-fluid">
 
 
 
 
-          <!-- Main content -->
-          <section class="content">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-12">
-
-
-                  <div class="card">
-                    <div class="card-header">
-                      <h3 class="card-title">Lista de Proveedores</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                      <table id="Proveedores" class="table table-bordered table-striped">
-                        <thead>
-                          <tr>
-                            <th>Proveedor</th>
-                            <th>CUIT</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-
-
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr id="tablaP" th:each="proveedor:${proveedores}">
-                            <td id="ProvId" th:value="${proveedor.proveedorId}" th:class="${proveedor.proveedorId}"
-                              style="display:none" th:text="${proveedor.proveedorId}" readonly></td>
-                            <td id="ProvNombre" th:text="${proveedor.razonSocial}"></td>
-                            <td id="ProvCUIT" th:text="${proveedor.CUIT}"></td>
-                            <td id="ProvEstado" th:if="${proveedor.estado}" th:text="ACTIVO"></td>
-                            <td id="ProvEstado" th:unless="${proveedor.estado}" th:text="INACTIVO">
-
-
-                            <td id="ModificarProducto">
-                              <button class="btn btn-primary editar"
-                                th:attr="onclick=|myFunction('${proveedor.proveedorId}')|"><i
-                                  class="fas fa-solid fa-pen"></i></button>
-                              <button class="btn btn-danger eliminar"
-                                th:attr="onclick=|eliminar('${proveedor.proveedorId}')|"><i
-                                  class="fas fa-solid fa-trash"></i></button>
-                              <button class="btn btn-danger gastos editar"
-                                th:attr="onclick=|gasto('${proveedor.proveedorId}')|"><i
-                                  class="fas fa-solid fa-dollar-sign"></i></button>
-                            </td>
-
-                          </tr>
-
-                        </tbody>
-
-                      </table>
-                    </div>
-                    <!-- /.card-body -->
-                  </div>
-                  <!-- /.card -->
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
-          </section>
-          <!-- /.content -->
-
-
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1>NUEVO PROVEEDOR </h1>
-            </div>
-
-          </div>
-        </div><!-- /.container-fluid -->
-      </section>
-
-      <!-- Main content -->
-      <section class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <!-- left column -->
-            <div class="col-md-6">
-              <!-- general form elements -->
-              <div class="card card-primary">
-                <div class="card-header">
-                  <h3 class="card-title">PROVEEDOR</h3>
-                </div>
-                <!-- /.card-header -->
-                <!-- form start -->
-                <form id="formularioProveedor" class="needs-validation mb-4" th:action="@{/Proveedor/crear-proveedor}"
-                  method="post" autocomplete="off" novalidate enctype="multipart/form-data">
-                  <div class="card-body">
-                    <div class="form-group mb-3">
-                      <label for="idProv">ID del Proveedor</label>
-                      <input name="id" type="text" class="form-control" placeholder="ID" id="idProv" readonly>
-                      <div class="invalid-feedback text-start">El ID es obligatorio</div>
-                    </div>
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="nombreProv">Razon Social</label>
-                    <input name="nombre" type="text" class="form-control" required id="nombreProv"
-                      placeholder="Razon Social">
-                    <div class="invalid-feedback text-start">El nombre es obligatorio</div>
-                  </div>
-                  <div class="form-group">
-                    <label for="CUITProv">CUIT</label>
-                    <input name="CUIT" type="number" class="form-control" required id="CUITProv" placeholder="CUIT">
-                    <div class="invalid-feedback text-start">El Fabricante es obligatorio</div>
-                  </div>
-
-
-                  <div class="card-footer">
-                    <button id="cambiar" type="submit" class="btn btn-primary">Submit</button>
-                    <button th:href="@{/index}" type="button" class="btn btn-danger">Cancelar</button>
-
-                  </div>
-                </form>
-
-                <!-- /.row -->
-
-              </div>
-            </div><!-- /.container-fluid -->
-            <div class="col-md-6">
-              <!-- general form elements -->
-              <div class="card card-primary " id="ingredientes">
-                <div class="card-header">
-                  <h3 class="card-title">Productos</h3>
-                </div>
+                <!-- Main content -->
                 <section class="content">
                   <div class="container-fluid">
-                    <div class="form-group">
-                      <label>GASTOS</label>
-                      <div class="row">
-                        <div class="col-md-10">
-                          <div class="form-group">
-                            <select class="ingredientes"
-                              style="width: 100%;"  id="selectprueba" name="categoria">
+                    <div class="row">
+                      <div class="col-12">
 
-                            </select>
+
+                        <div class="card">
+                          <div class="card-header">
+                            <h3 class="card-title">Lista de Proveedores</h3>
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+                            <table id="Proveedores" class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Proveedor</th>
+                                  <th>CUIT</th>
+                                  <th>Estado</th>
+                                  <th>Acciones</th>
+
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr id="tablaP" th:each="proveedor:${proveedores}">
+                                  <td id="ProvId" th:value="${proveedor.proveedorId}"
+                                    th:class="${proveedor.proveedorId}" style="display:none"
+                                    th:text="${proveedor.proveedorId}" readonly></td>
+                                  <td id="ProvNombre" th:text="${proveedor.razonSocial}"></td>
+                                  <td id="ProvCUIT" th:text="${proveedor.CUIT}"></td>
+                                  <td id="ProvEstado" th:if="${proveedor.estado}" th:text="ACTIVO"></td>
+                                  <td id="ProvEstado" th:unless="${proveedor.estado}" th:text="INACTIVO">
+
+
+                                  <td id="ModificarProducto">
+                                    <button class="btn btn-primary editar"
+                                      th:attr="onclick=|myFunction('${proveedor.proveedorId}')|"><i
+                                        class="fas fa-solid fa-pen"></i></button>
+                                    <button class="btn btn-danger eliminar"
+                                      th:attr="onclick=|eliminar('${proveedor.proveedorId}')|"><i
+                                        class="fas fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-danger gastos editar"
+                                      th:attr="onclick=|gasto('${proveedor.proveedorId}')|"><i
+                                        class="fas fa-solid fa-dollar-sign"></i></button>
+                                  </td>
+
+                                </tr>
+
+                              </tbody>
+
+                            </table>
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                      </div>
+                      <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                  </div>
+                  <!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+
+
+                <div class="row mb-2">
+                  <div class="col-sm-6">
+                    <h1>NUEVO PROVEEDOR </h1>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+              <div class="container-fluid">
+                <div class="row">
+                  <!-- left column -->
+                  <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                      <div class="card-header">
+                        <h3 class="card-title">PROVEEDOR</h3>
+                      </div>
+
+                      <form id="formularioProveedor" class="needs-validation mb-4"
+                        th:action="@{/Proveedor/crear-proveedor}" method="post" autocomplete="off" novalidate
+                        enctype="multipart/form-data">
+                        <div class="card-body">
+                          <div class="form-group mb-3">
+                            <label for="idProv">ID del Proveedor</label>
+                            <input name="id" type="text" class="form-control" placeholder="ID" id="idProv" readonly>
+                            <div class="invalid-feedback text-start">El ID es obligatorio</div>
                           </div>
                         </div>
-                        <div class="col-md-2">
-                          <button id="agregar" class="fas fa-plus"></button>
+                        <div class="form-group mb-3">
+                          <label for="nombreProv">Razon Social</label>
+                          <input name="nombre" type="text" class="form-control" required id="nombreProv"
+                            placeholder="Razon Social">
+                          <div class="invalid-feedback text-start">El nombre es obligatorio</div>
+                        </div>
+                        <div class="form-group">
+                          <label for="CUITProv">CUIT</label>
+                          <input name="CUIT" type="number" class="form-control" required id="CUITProv"
+                            placeholder="CUIT">
+                          <div class="invalid-feedback text-start">El Fabricante es obligatorio</div>
                         </div>
 
-                      </div>
+
+                        <div class="card-footer">
+                          <button id="cambiar" type="submit" class="btn btn-primary">Submit</button>
+                          <button th:href="@{/index}" type="button" class="btn btn-danger">Cancelar</button>
+
+                        </div>
+                      </form>
+
+
+
                     </div>
+                  </div><!-- /.container-fluid -->
+                  <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-primary " id="ingredientes">
+                      <div class="card-header">
+                        <h3 class="card-title">Productos</h3>
+                      </div>
+                      <section class="content">
+                        <div class="container-fluid">
+                          <div class="form-group">
+                            <label>GASTOS</label>
+                            <div class="row">
+                              <div class="col-md-10">
+                                <div class="form-group">
+                                  <select class="ingredientes" style="width: 100%;" id="selectprueba" name="categoria">
 
-                </section>
-                <!-- /.card-header -->
-                <!-- form start -->
-                <form id="formularioProducto" class="needs-validation mb-4 "
-                  th:action="@{/ingredientes/cargar-ingredientes/}" method="post" autocomplete="off" novalidate>
-                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-md-2">
+                                <button id="agregar" class="fas fa-plus"></button>
+                              </div>
 
-                  <table id="agregados" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>Articulo</th>
-                        <th>Fabricante</th>
-                        <th>Cantidad</th>
-                        <th>Unidad</th>
-                        <th>Monto</th>
-                        <th>Accion</th>
+                            </div>
+                          </div>
+
+                      </section>
+                      <!-- /.card-header -->
+                      <!-- form start -->
+                      <form id="formularioProducto" class="needs-validation mb-4 "
+                        th:action="@{/ingredientes/cargar-ingredientes/}" method="post" autocomplete="off" novalidate>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                        <table id="agregados" class="table table-bordered table-striped">
+                          <thead>
+                            <tr>
+                              <th>Articulo</th>
+                              <th>Fabricante</th>
+                              <th>Cantidad</th>
+                              <th>Unidad</th>
+                              <th>Monto</th>
+                              <th>Accion</th>
 
 
 
-                      </tr>
-                    </thead>
-                    <tbody id="agregadostabla">
+                            </tr>
+                          </thead>
+                          <tbody id="agregadostabla">
 
-                    </tbody>
-                  </table>
-                  <!-- /.card-body -->
+                          </tbody>
+                        </table>
+                        <!-- /.card-body -->
 
+                        <div class="card-footer">
+
+                        </div>
+                      </form>
+                      <h3>
+                        <div><label>Costo</label>
+                          <input id="costototal" type="number" disabled text="">
+                        </div>
+                      </h3>
+                    </div>
+                    <button id="confirmargasto" class="btn btn-primary ">Confirmar</button>
+                    <button th:href="@{/index}" class="btn btn-danger ">Cancelar</button>
+
+
+                  </div>
                   <div class="card-footer">
 
                   </div>
-                </form>
-                <h3>
-                  <div><label>Costo</label>
-                    <input id="costototal" type="number" disabled text="">
-                  </div>
-                </h3>
+
+
+                </div>
               </div>
-              <button id="confirmargasto" class="btn btn-primary ">Confirmar</button>
-              <button th:href="@{/index}" class="btn btn-danger ">Cancelar</button>
-
-              <!-- /.card -->
-
-
-              <!-- /.card -->
-              <!-- Horizontal Form -->
+            </section>
+          </div><!-- /.container-fluid -->
+          <div id="Historial" class="bloque">
+            <section class="content-header">
+              <div class="container-fluid">
 
 
-              <!--/.col (left) -->
-              <!-- right column -->
-
-              <!--/.col (right) -->
-            </div>
-            <div class="card-footer">
-
-            </div>
 
 
-          </div>
-        </div><!-- /.container-fluid -->
+                <!-- Main content -->
+                <section class="content">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-12">
+
+
+                        <div class="card">
+                          <div class="card-header">
+                            <h3 class="card-title">Lista de Gastos</h3>
+
+                          </div>
+
+                          <!-- /.card-header -->
+                          <div class="card-body">
+
+                            <table id="GHistorial" class="table table-bordered table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Proveedor</th>
+                                  <th>Monto</th>
+                                  <th>Fecha</th>
+                                  <th>Acciones</th>
+
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr id="GTabla" th:each="gasto:${gastos}">
+                                  <td id="GProvId" th:value="${gasto.gastoId}" th:class="${gasto.gastoId}"
+                                    style="display:none" th:text="${gasto.gastoId}" readonly></td>
+                                  <td id="GProvNombre" th:text="${gasto.proveedor.razonSocial}"></td>
+                                  <td id="GProvMonto" th:text="${gasto.montoTotal}"></td>
+                                  <td id="GProvEstado" th:text="${gasto.fechaGasto}"></td>
+
+
+                                  <td id="ModificarGasto">
+                                    <button class="btn btn-primary editar"
+                                      th:attr="onclick=|Editar('${gasto.gastoId}')|"><i
+                                        class="fas fa-solid fa-pen"></i></button>
+                                    <button class="btn btn-danger eliminar"
+                                      th:attr="onclick=|EliminarGasto('${gasto.gastoId}')|"><i
+                                        class="fas fa-solid fa-trash"></i></button>
+                                    <button type="button" class="btn btn-action btn-danger" data-toggle="modal"
+                                      data-target="#exampleModal" th:attr="onclick=|Detalle('${gasto.gastoId}')|"><i
+                                        class="fa fa-info" aria-hidden="true"></i></button>
+                                  </td>
+
+                                </tr>
+
+                              </tbody>
+
+                            </table>
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                      </div>
+                      <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                  </div>
+                  <!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+
+
+
+              </div>
+            </section>
+          </div><!-- /.container-fluid -->
+        </div>
+      </div>
     </div>
   </div>
-  </section>
+
+
   <!-- /.content -->
 
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -254,10 +336,108 @@
   </div>
   <!-- ./wrapper -->
 
+  <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Detalle de Gasto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Monto</th>
+              <th>Acciones</th>
+
+
+            </tr>
+          </thead>
+          <tbody class="modal-body">
+
+          </tbody>
+        </table>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  </div>
+
+
   <div th:insert="fragments/components :: scripts">
 
   </div>
 
+
+  <script>
+    function Detalle(id) {
+      $(document).one('click', '.btn-action', function (event) {
+        event.preventDefault();
+        $(".modal-body").empty();
+        console.log("ID " + id)
+        console.log("ENTRA")
+var markup="";
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:8080/Gasto/detalleGastos/" + id,
+          dataType: "json",
+          success: function (res) {
+
+            // get the ajax response data
+
+            for (i = 0; i < res.length; i++) {
+
+
+
+              markup += "<tr ><td id='idGquitar'value='" + id + "' style='display:none'  >" + id + "</td><td id='nombreGquitar'>" + res[i].producto.nombre + "</td><td>" + res[i].costo + "</td><td>" + res[i].cantidad + "</td><td> <button type='button'  value='" + res[0].detalleGastoId + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+
+
+            }
+            $('.modal-body').append(markup);
+
+
+          },
+          error: function (request, status, error) {
+            console.log("ajax call went wrong:" + error);
+          }
+        });
+
+
+        // update modal content
+        // show modal
+
+
+      });
+
+    }
+
+  </script>
+  <script>
+    $(document).ready(function () {
+      const li = document.querySelectorAll('.li');
+      const bloque = document.querySelectorAll('.bloque');
+      li.forEach((cadali, i) => {
+        li[i].addEventListener('click', () => {
+
+          li.forEach((cadali, i) => {
+            li[i].classList.remove('active')
+            bloque[i].classList.remove('active')
+          })
+          li[i].classList.add('active')
+          bloque[i].classList.add('active')
+        })
+
+      })
+    })
+
+  </script>
   <script>
     $(function () {
       $(document).on('click', '.borrar', function (event) {
@@ -293,43 +473,70 @@
 
 
   </script>
-<script>
+  <script>
 
-  $("#confirmargasto").one('click', function () {
-
-
+    $("#confirmargasto").one('click', function () {
 
 
-    var ids = "";
-    var cant = "";
-    var costo = 0.0;
-    var indice = document.getElementById("agregadostabla").rows.length;
-console.log(indice)
 
-    for (i = 0; i < indice; i++) {
-      console.log("inner"+ document.getElementById("agregadostabla").rows[i].cells[0].innerHTML)
+      var proveedorId = $("#idProv").val();
+      var ids = "";
+      var cant = "";
+      var costo = 0.0;
+      var monto = "";
+      var indice = document.getElementById("agregadostabla").rows.length;
 
-      ids += (",{'id':" + document.getElementById("agregadostabla").rows[i].cells[0].innerHTML + "}")
+      for (i = 0; i < indice; i++) {
+        console.log("Inner" + document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
 
-      cant += (",{'cantidad':" + document.getElementById("agregadostabla").rows[i].cells[3].innerHTML + "}")
-      monto += (",{'monto':" + document.getElementById("agregadostabla").rows[i].cells[5].innerHTML + "}")
-    
-   
-      $("#costototal").val(montotot)
-    }
- 
-    var ids = JSON.parse(JSON.stringify("[" + ids.substring(1) + "]"))
-    var cant = JSON.parse(JSON.stringify("[" + cant.substring(1) + "]"))
-    var monto = JSON.parse(JSON.stringify("[" + monto.substring(1) + "]"))
+        ids += (",{'id':" + document.getElementById("agregadostabla").rows[i].cells[0].innerHTML + "}")
+
+        cant += (",{'cantidad':" + document.getElementById("agregadostabla").rows[i].cells[3].innerHTML + "}")
+        monto += (",{'monto':" + document.getElementById("agregadostabla").rows[i].cells[5].innerHTML + "}")
 
 
-    var productoID = $("#prodId").val();
+        $("#costototal").val(montotot)
+      }
+
+      var ids = JSON.parse(JSON.stringify("[" + ids.substring(1) + "]"))
+      var cant = JSON.parse(JSON.stringify("[" + cant.substring(1) + "]"))
+      var monto = JSON.parse(JSON.stringify("[" + monto.substring(1) + "]"))
+
+      const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/Gasto/cargar-gasto/",
+        headers: { 'X-XSRF-TOKEN': csrfToken },
+        data: {
+          proveedorId: proveedorId,
+          productoId: ids,
+          cant: cant,
+          monto: monto,
+
+        },
+        dataType: "application/json",
+        beforeSend: function () {
+        },
+        success: function (data, textStatus, jqXHR) {
+        },
+        complete: function (result) {
+
+          alert(result.responseText);
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
 
 
-  })
-    ;
+        }
 
-</script>
+      })
+
+
+    })
+      ;
+
+  </script>
 
   <script>
     $("#agregar").click(function () {
@@ -340,15 +547,15 @@ console.log(indice)
       var a = $("#selectprueba option:selected").val();
       var b = $("#selectprueba option:selected").text();
 
-      console.log(x)
-      console.log(y)
-      console.log(a)
-      console.log(b)
+      //console.log(x)
+      //console.log(y)
+      //console.log(a)
+      //console.log(b)
 
       $("#selectprueba option:selected").remove();
       var markup = "<tr class='idagregar'><td id='idquitar'value='" + y[0] + "' style='display:none'  >" + y[0] + "</td><td id='nombrequitar'>" + b + "</td><td id='fabricantequitar'>" + y[1] + "</td><td class='cant'>0</td><td id='unidadquitar'>" + y[2] + "</td><td id='monto' class='monto'>" + 0 + "</td><td> <button type='button'  value='" + b + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
       $("#agregadostabla").append(markup);
-   
+
       $(function () {
         $(".cant").click(function () {
           var newContent
@@ -360,7 +567,7 @@ console.log(indice)
             if (e.which == 13) {
               newContent = $(this).val();
               $(this).parent().text(newContent);
-             
+
 
               $(this).parent().removeClass("cellEditing");
             }
@@ -372,15 +579,15 @@ console.log(indice)
           $(this).find('input').click(function (e) {
             e.stopPropagation();
           });
-          
+
         });
-       
+
       });
 
-      $(function () {        
-        
+      $(function () {
+
         $(".monto").click(function () {
- 
+
           var OriginalContent = $(this).text();
           $(this).addClass("cellEditing");
           $(this).html("<input type='text' value='" + OriginalContent + "' />");
@@ -389,13 +596,13 @@ console.log(indice)
             if (e.which == 13) {
               var newContent = $(this).val();
               $(this).parent().text(newContent);
-            
+
               $(this).parent().removeClass("cellEditing");
-     
+
             }
           });
           $(this).children().first().blur(function () {
-        
+
 
             $(this).parent().text(OriginalContent);
             $(this).parent().removeClass("cellEditing");
@@ -407,43 +614,43 @@ console.log(indice)
             e.stopPropagation();
           });
         });
- 
+
       });
- 
+
 
     })
 
 
 
   </script>
- 
- <script>
-   
-const targetNode = document.getElementById('agregadostabla');
 
-const config = { attributes: true, childList: true, subtree: true };
+  <script>
+    var montotot = 0.0;
+    const targetNode = document.getElementById('agregadostabla');
 
-const callback = function(mutationsList, observer) {
-    for(const mutation of mutationsList) {
-        
+    const config = { attributes: true, childList: true, subtree: true };
+
+    const callback = function (mutationsList, observer) {
+      for (const mutation of mutationsList) {
+
         var indice = document.getElementById("agregadostabla").rows.length;
-var montotot=0.0;
+        var montotot = 0.0;
 
-    for (i = 0; i < indice; i++) {
+        for (i = 0; i < indice; i++) {
 
 
-      montotot+=Number(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML )
-    
-      
-    }
-    $("#costototal").val(montotot)
-    }
+          montotot += Number(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
 
-    
-};
 
-const observer = new MutationObserver(callback);
-observer.observe(targetNode, config);
+        }
+        $("#costototal").val(montotot)
+      }
+
+
+    };
+
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
 
 
 
@@ -455,7 +662,6 @@ observer.observe(targetNode, config);
     function myFunction(id) {
       $(document).one('click', '.editar', function (event) {
         event.preventDefault();
-        console.log("LLAMADA")
         var boton = $("#cambiar");
         boton.text("Modificar");
         $("#formularioProveedor").attr("action", "/Proveedor/modificar-proveedor")
@@ -486,12 +692,13 @@ observer.observe(targetNode, config);
 
 
   </script>
+
   <script>
     function gasto(id) {
       $(document).one('click', '.gastos', function (event) {
 
         event.preventDefault();
-
+        $("#agregadostabla").empty()
         var boton = $("#cambiar");
         boton.text("Modificar");
         $("#formularioProveedor").attr("action", "/Proveedor/modificar-proveedor")
@@ -514,6 +721,7 @@ observer.observe(targetNode, config);
         $('#idProv').val(id1);
         $('#nombreProv').val(nombre1);
         $('#CUITProv').val(CUIT);
+        $("#selectprueba").empty()
         $.getJSON("http://localhost:8080/Gasto/llenardata/", function (result) {
 
 
@@ -522,8 +730,6 @@ observer.observe(targetNode, config);
 
           for (var i = 0; i < result.length; i++) {
 
-            console.log(result[i])
-            console.log(result[i].prodId)
 
 
 
@@ -561,12 +767,12 @@ observer.observe(targetNode, config);
         var articulos =/*[[${productos}]]*/"Art";
         var error =/*[[${error}]]*
         /*]]>*/
+
           console.log(event)
         const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
 
         for (i = 0; i < articulos.length; i++) {
           if (articulos[i].prodId == id) {
-            console.log("ID Enviado " + id + "articulo buscado " + articulos[i].prodId)
 
             var resultado = window.confirm("Esta seguro que desea eliminar el Articulo " + articulos[i].nombre);
             if (resultado === true) {
@@ -582,20 +788,12 @@ observer.observe(targetNode, config);
                 beforeSend: function () {
                 },
                 success: function (data, textStatus, jqXHR) {
-                  console.log("SUCCESS data " + data)
-                  console.log("SUCCESS text " + textStatus)
-                  console.log("SUCCESS jqxhr " + jqXHR)
 
                 },
                 complete: function (result) {
-                  // console.log()
-                  // alert(result.responseText);
 
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                  console.log("ERROR data " + data)
-                  console.log("ERROR text " + textStatus)
-                  console.log("ERROR jqxhr " + jqXHR)
 
                 }
 
@@ -628,6 +826,38 @@ observer.observe(targetNode, config);
 
 
       $('#Proveedores').DataTable(
+        {
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "responsive": true,
+          "columnDefs": [
+            {
+              "orderable": false, "targets": 4,
+
+            }
+          ],
+          "dom": 'Bfrtip',
+          "buttons": [
+
+            'copyHtml5',
+            'csvHtml5',
+            'excelHtml5',
+            'pdfHtml5',
+            'print'
+          ]
+        }
+      );
+    })
+  </script>
+  <script>
+    $(document).ready(function () {
+
+
+      $('#GHistorial').DataTable(
         {
           "paging": true,
           "lengthChange": false,

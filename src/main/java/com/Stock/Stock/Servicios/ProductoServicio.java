@@ -41,7 +41,7 @@ public class ProductoServicio {
     public void crearProdEstandar(String fabricante, Integer stock, String nombre, Double costo, Double precioVenta, MultipartFile foto, String categoria) throws Exception {
         ProductoStandar P = new ProductoStandar();
         P.setFabricante(fabricante);
-        P.setStock(0);
+        P.setStock(0.0);
         P.setNombre(nombre);
         P.setCosto(costo);
         P.setFoto(fotoServicio.guardar(foto));
@@ -57,7 +57,7 @@ public class ProductoServicio {
     public void crearArticulo(String fabricante, Integer stock, String nombre, Double costo, Double precioVenta, MultipartFile foto, String categoria, String unidad) throws Exception {
         Articulo P = new Articulo();
         P.setFabricante(fabricante);
-        P.setStock(0);
+        P.setStock(0.0);
         P.setNombre(nombre);
         P.setCosto(costo);
         P.setFoto(fotoServicio.guardar(foto));
@@ -72,7 +72,7 @@ public class ProductoServicio {
     public void modificarArticulo(Integer id,String fabricante, Integer stock, String nombre, Double costo, Double precioVenta, MultipartFile foto, String categoria, String unidad) throws Exception {
         Articulo P =  productoRepositorio.buscarArticulo(id);
         P.setFabricante(fabricante);
-        P.setStock(0);
+        P.setStock(0.0);
         P.setNombre(nombre);
         P.setCosto(costo);
         if(!foto.isEmpty()){
@@ -97,7 +97,14 @@ public class ProductoServicio {
     public void modificarStock(String id, String stock) throws Exception {
         
                 
-                productoRepositorio.modificarStock(Integer.valueOf(id), Integer.valueOf(stock));
+                productoRepositorio.modificarStock(Integer.valueOf(id), Double.valueOf(stock));
+
+    }
+    @Transactional
+    public void modificarCosto(String id, String costo) throws Exception {
+        
+                
+                productoRepositorio.modificarCosto(Integer.valueOf(id), Double.valueOf(costo));
 
     }
     

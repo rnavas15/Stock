@@ -5,7 +5,6 @@
  */
 package com.Stock.Stock.Entidades;
 
-
 import Enum.TipoMovimiento;
 import com.Stock.Stock.Entidades.Producto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -33,20 +32,21 @@ import org.checkerframework.checker.units.qual.degrees;
 @NoArgsConstructor
 @Getter
 @Setter
-public class MovimientoStock implements Serializable{
+public class MovimientoStock implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer idMov;
 
-    private Integer cantidadIng;
-    private Integer cantidadActual;
+    private Double cantidadIng;
+    private Double cantidadActual;
+    private Double cantidadNueva;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaMov;
 
     private Enum tipoMovimiento;
-    
+
     @ManyToOne
     @JsonBackReference
     private Producto producto;
@@ -54,6 +54,4 @@ public class MovimientoStock implements Serializable{
     private Double costoNuevo;
     private Double costoActual;
 
-
 }
-

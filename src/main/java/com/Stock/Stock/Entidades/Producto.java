@@ -6,6 +6,7 @@
 package com.Stock.Stock.Entidades;
 
 import Enum.Categoria;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
@@ -57,8 +58,8 @@ public abstract class Producto implements Serializable {
     @OneToMany (mappedBy = "producto")
     protected List<Lote> lote;
 
+     @JsonIgnore
     @OneToMany (mappedBy = "producto")
-    
     protected List<DetalleGasto> detallesGasto;
     
     @OneToMany (mappedBy = "producto")

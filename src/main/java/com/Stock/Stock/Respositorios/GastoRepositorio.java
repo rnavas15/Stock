@@ -5,8 +5,10 @@
  */
 package com.Stock.Stock.Respositorios;
 
+import com.Stock.Stock.Entidades.Articulo;
 import com.Stock.Stock.Entidades.Gasto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,5 +17,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GastoRepositorio extends JpaRepository<Gasto, Integer>{
+    
+    
     
 }

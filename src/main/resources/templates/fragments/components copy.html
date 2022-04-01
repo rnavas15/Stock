@@ -333,82 +333,19 @@
 
 
   <div th:fragment="scripts">
-  <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-   <!-- jQuery UI 1.11.4 -->
-    <script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
-	
-	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-
-<!-- Bootstrap 4 -->
-    <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-
-   
- <!-- ChartJS -->
-    <script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
-    <!-- Sparkline -->
-    <script th:src="@{/plugins/sparklines/sparkline.js}"></script>
-    <!-- JQVMap -->
-    <script th:src="@{/plugins/jqvmap/jquery.vmap.min.js}"></script>
-	<script th:src="@{/plugins/jqvmap/maps/jquery.vmap.usa.js}"></script>
- <!-- jQuery Knob Chart -->
-    <script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
-
-
-<!-- daterangepicker -->
- <script th:src="@{/plugins/moment/moment.min.js}"></script>
- <script th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
-
-
-  <!-- Tempusdominus Bootstrap 4 -->
-    <script th:src="@{/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
-
-
- <!-- Summernote -->
-    <script th:src="@{plugins/summernote/summernote-bs4.min.js}"></script>
- <!-- overlayScrollbars-->
-    <script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
-
- <!-- AdminLTE App -->
-    <script th:src="@{/dist/js/adminlte.js}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script th:src="@{/dist/js/demo.js}"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script th:src="@{/dist/js/pages/dashboard.js}"></script>
-
-
-    <script th:src="@{/plugins/bootstrap/js/bootstrap.js}"></script>
-
-    
-	
-	
-
-
-
-	
-	
-	
-	
-	
-	
-	
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
 
     <!-- Ordenado de Tablas y filtrado -->
     
-    <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
-    <script th:src="@{https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js}"></script>
-    <script th:src="@{https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js}"></script>
-    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js}"></script>
-    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js}"></script>
-    <script th:src="@{https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js}"></script>
-    <script th:src="@{https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js}"></script>
-    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js}"></script>
+    <script src=https://code.jquery.com/jquery-3.5.1.js></script>
+    <script src=https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js></script>
+    <script src=https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js></script>
+    <script src=https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js></script>
+    <script src=https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js></script>
     
     
     <script>
@@ -426,9 +363,7 @@
           }, false);
         })()
     </script>
-	
-	
-
+    <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
@@ -439,18 +374,44 @@
       crossorigin="anonymous"></script>
     <script src="dashboard.js"></script>
     <!-- jQuery -->
- 
+    <!-- jQuery UI 1.11.4 -->
+    <script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip 
+    <script>
+      $.widget.bridge('uibutton', $.ui.button)
+    </script>
+ -->
+    <!-- ChartJS -->
+    <script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+    <!-- Sparkline -->
+    <script th:src="@{/plugins/sparklines/sparkline.js}"></script>
+    <!-- JQVMap -->
+    <script th:src="@{/plugins/jqvmap/jquery.vmap.min.js}"></script>
+    <script th:src="@{/plugins/jqvmap/maps/jquery.vmap.usa.js}"></script>
+    <!-- jQuery Knob Chart -->
+    <script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
+    <!-- daterangepicker -->
+    <script th:src="@{/plugins/moment/moment.min.js}"></script>
+    <script th:src="@{/plugins/bootstrap/js/bootstrap.js}"></script>
 
-
-   
-    
-   
-  
-  
-   
-   
+    <script th:src="@{plugins/daterangepicker/daterangepicker.js}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script th:src="@{/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+    <!-- Summernote
+    <script th:src="@{plugins/summernote/summernote-bs4.min.js}"></script>
+  overlayScrollbars -->
+    <script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+    <!-- AdminLTE App -->
+    <script th:src="@{/dist/js/adminlte.js}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script th:src="@{/dist/js/demo.js}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script th:src="@{/dist/js/pages/dashboard.js}"></script>
     <script th:src="@{https://code.jquery.com/jquery-2.1.3.min.js}"></script>
-
+    <!-- jQuery -->
+    <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+    <!-- Bootstrap 4 -->
+    <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
     <!-- bs-custom-file-input -->
     <script th:src="@{/plugins/bs-custom-file-input/bs-custom-file-input.min.js}"></script>
     <!-- AdminLTE App -->

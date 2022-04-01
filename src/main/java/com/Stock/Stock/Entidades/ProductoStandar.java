@@ -27,10 +27,10 @@ import lombok.NoArgsConstructor;
 public class ProductoStandar extends Producto implements Serializable{
     
    private String fabricante;
-   private Integer stock;
+   private Double stock;
     private Enum unidad;
 
-    public ProductoStandar(String fabricante, Integer stock, String nombre, Double costo, Double precioVenta, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
+    public ProductoStandar(String fabricante, Double stock, String nombre, Double costo, Double precioVenta, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
         super(nombre, costo, precioVenta, movimiento, lote, detallesGasto, detallesPedido);
         this.fabricante = fabricante;
         this.stock = stock;

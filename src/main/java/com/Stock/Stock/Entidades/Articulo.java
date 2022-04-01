@@ -28,7 +28,7 @@ import lombok.Setter;
 public class Articulo extends Producto implements Serializable{
     
     private String fabricante;
-    private Integer stock;
+    private Double stock;
     private Enum unidad;
     
  
@@ -38,7 +38,7 @@ public class Articulo extends Producto implements Serializable{
      @JsonBackReference
     protected List<Ingrediente> ingrediente;
 
-    public Articulo(String fabricante, Integer stock, Enum unidad, List<Ingrediente> ingrediente, String nombre, Double costo, Double precioVenta, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
+    public Articulo(String fabricante, Double stock, Enum unidad, List<Ingrediente> ingrediente, String nombre, Double costo, Double precioVenta, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
         super(nombre, costo, precioVenta, movimiento, lote, detallesGasto, detallesPedido);
         this.fabricante = fabricante;
         this.stock = stock;
@@ -48,7 +48,7 @@ public class Articulo extends Producto implements Serializable{
 
    
 
-    public Articulo(String fabricante, Integer stock, Enum unidad, List<Ingrediente> ingrediente, Integer prodId, String nombre, Double costo, Double precioVenta, Categoria categoria, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido, Foto foto) {
+    public Articulo(String fabricante, Double stock, Enum unidad, List<Ingrediente> ingrediente, Integer prodId, String nombre, Double costo, Double precioVenta, Categoria categoria, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido, Foto foto) {
         super(prodId, nombre, costo, precioVenta, categoria, movimiento, lote, detallesGasto, detallesPedido, foto);
         this.fabricante = fabricante;
         this.stock = stock;

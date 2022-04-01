@@ -6,6 +6,9 @@
 package com.Stock.Stock.Entidades;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -30,22 +33,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Gasto {
+public class Gasto implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    Integer gastoId;
+   private Integer gastoId;
     
-    Double montoTotal;
-    
+   private Double montoTotal;
+   
+    @JsonIgnore
     @OneToMany (mappedBy = "gasto")
-    List<DetalleGasto> detalleGasto;
+   private List<DetalleGasto> detalleGasto;
     
     @Temporal(TemporalType.DATE)
-    Date fechaGasto;
+   private Date fechaGasto;
     
     @ManyToOne
-    Proveedor proveedor;
+   private Proveedor proveedor;
     
     
     

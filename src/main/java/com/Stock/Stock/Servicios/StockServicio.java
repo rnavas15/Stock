@@ -40,7 +40,8 @@ public class StockServicio {
         if (tipo.toLowerCase().equals("productostandar")) {
             ps = productoServicio.buscarProductoStandar(Integer.valueOf(id));
             movimiento.setCantidadActual(ps.getStock());
-            movimiento.setCantidadIng(Integer.valueOf(stock));
+            movimiento.setCantidadIng((ps.getStock() - Double.valueOf(stock)));
+            movimiento.setCantidadNueva((Double.valueOf(stock)));
 
             movimiento.setFechaMov(new Date());
             movimiento.setCostoActual(ps.getCosto());
@@ -53,7 +54,8 @@ public class StockServicio {
         if (tipo.toLowerCase().equals("articulo")) {
             a = productoServicio.buscarArticulo(Integer.valueOf(id));
             movimiento.setCantidadActual(a.getStock());
-            movimiento.setCantidadIng(Integer.valueOf(stock));
+            movimiento.setCantidadIng((a.getStock() - Double.valueOf(stock)));
+            movimiento.setCantidadIng(Double.valueOf(stock));
 
             movimiento.setFechaMov(new Date());
             movimiento.setCostoActual(a.getCosto());
@@ -71,6 +73,69 @@ public class StockServicio {
 
     public List<MovimientoStock> buscarMovimientos(Integer id) {
         return stockRepositorio.buscarMovimientos(id);
+
+    }
+
+    @Transactional
+    public void registrarMovimientoCompra(Integer id, Double cant, Double monto) throws Exception {
+        ProductoStandar ps = new ProductoStandar();
+        Articulo a = new Articulo();
+        String tipo = productoServicio.buscarTipoProducto(id.toString());
+
+        MovimientoStock movimiento = new MovimientoStock();
+
+        if (tipo.toLowerCase().equals("productostandar")) {
+            ps = productoServicio.buscarProductoStandar(id);
+            movimiento.setCantidadActual(ps.getStock());
+            movimiento.setCantidadIng((cant));
+             movimiento.setCantidadNueva((ps.getStock() + cant));
+        Double cantidad=(ps.getStock() + cant);
+        productoServicio.modificarStock(id.toString(),(cantidad).toString());
+
+            movimiento.setFechaMov(new Date());
+            movimiento.setCostoActual(ps.getCosto());
+            try {
+                movimiento.setCostoNuevo((monto / cant));
+                ps.setCosto((monto / cant));
+                  Double monto1=(monto / cant);
+                 productoServicio.modificarCosto(id.toString(),monto1.toString());
+               
+            } catch (Exception e) {
+                throw new Exception("Error al dividir el monto por la cantidad de productos ingresados REVISE LA CANTIDAD");
+            }
+
+            movimiento.setProducto(ps);
+            movimiento.setTipoMovimiento(TipoMovimiento.COMPRA);
+            
+
+        }
+        if (tipo.toLowerCase().equals("articulo")) {
+            a = productoServicio.buscarArticulo(id);
+            movimiento.setCantidadActual(a.getStock());
+            movimiento.setCantidadIng(cant);
+            movimiento.setCantidadNueva((a.getStock() + cant));
+            Double cantidad=(a.getStock() + cant);
+        productoServicio.modificarStock(id.toString(),(cantidad).toString());
+
+            movimiento.setFechaMov(new Date());
+            movimiento.setCostoActual(a.getCosto());
+            try {
+                movimiento.setCostoNuevo((monto / cant));
+                a.setCosto((monto / cant));
+                Double monto1=(monto / cant);
+                 productoServicio.modificarCosto(id.toString(),monto1.toString());
+            } catch (Exception e) {
+                throw new Exception("Error al dividir el monto por la cantidad de productos ingresados REVISE LA CANTIDAD");
+            }
+
+            movimiento.setProducto(a);
+            
+            movimiento.setTipoMovimiento(TipoMovimiento.COMPRA);
+            
+
+        }
+
+        stockRepositorio.save(movimiento);
 
     }
 }

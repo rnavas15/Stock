@@ -5,7 +5,9 @@
  */
 package com.Stock.Stock.Controladores;
 
+import com.Stock.Stock.Entidades.Gasto;
 import com.Stock.Stock.Entidades.Proveedor;
+import com.Stock.Stock.Servicios.GastoServicio;
 import com.Stock.Stock.Servicios.ProveedorServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +29,19 @@ public class ProveedorControlador {
     @Autowired
     ProveedorServicio proveedorServicio;
 
+    @Autowired
+    GastoServicio gastoServicio;
+    
+    
     @GetMapping("")
     public String Proveedores(ModelMap modelo) {
         List<Proveedor> p = proveedorServicio.buscarProveedores();
-        for (Proveedor proveedor : p) {
-            System.out.println(proveedor.getProveedorId());
-
-        }
+        List<Gasto> g=gastoServicio.buscarGastos();
+      
                 modelo.put("proveedores", proveedorServicio.buscarProveedores());
+                modelo.put("gastos", g);
 
-        System.out.println(proveedorServicio.buscarProveedores().toString());
+        
         return "/Proveedores/Proveedores";
     }
 

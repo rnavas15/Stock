@@ -5,6 +5,8 @@
  */
 package com.Stock.Stock.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,26 +20,29 @@ import lombok.Setter;
 /**
  *
  * @author rnavas
- */@Entity
+ */
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class DetalleGasto {
+public class DetalleGasto implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    Integer detalleGastoId;
+   private Integer detalleGastoId;
+    
     
     @ManyToOne
-    Gasto gasto;
+   private Gasto gasto;
     
     @ManyToOne
-    Producto producto;
+  private  Producto producto;
     
-    Double costo;
+  private  Double costo;
     
-    Integer cantidad;
+    
+   private Double cantidad;
     
     
     

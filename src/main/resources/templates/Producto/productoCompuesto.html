@@ -409,7 +409,7 @@
             nuevosing = nuevosing.filter(function (x) { return x.prodId != result[i].articulo.prodId; });
 
           }
-          markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'>" + result[i].cantidad + "</td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+          markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'>" + result[i].cantidad + "</td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td id='costoquitar'>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
           $("#agregadostabla").append(markup);
         }
 
@@ -417,10 +417,7 @@
           option = "<option id='" + nuevosing[i].prodId + "' text='" + nuevosing[i].nombre + "'value='" + nuevosing[i].prodId + "," + nuevosing[i].fabricante + "," + nuevosing[i].unidad + "," + nuevosing[i].costo + "'>" + nuevosing[i].nombre + "</option>";
           $("#selectprueba").append(option)
         }
-        $('selectprueba').selectize({
-            sortField: 'text'
-            
-          });
+        
         var indice = document.getElementById("agregadostabla").rows.length;
         var costo1 = 0.0;
         for (i = 0; i < indice; i++) {
@@ -456,7 +453,10 @@
 
       });
     });
-
+    $('#selectprueba').selectize({
+            sortField: 'text'
+            
+          });
   }
 
 
@@ -491,12 +491,13 @@
         id1 = nombre.parent().find("#idquitar").text();
         fabricante = nombre.parent().find("#fabricantequitar").text();
         unidad = nombre.parent().find("#unidadquitar").text();
+        costo = nombre.parent().find("#costoquitar").text();
 
 
 
 
 
-        option = "<option id='" + id1 + "' text='" + nombre1 + "'value='" + id1 + "," + fabricante + "," + unidad + "'>" + nombre1 + "</option>";
+        option = "<option id='" + id1 + "' text='" + nombre1 + "'value='" + id1 + "," + fabricante + "," + unidad + "," + costo + "'>" + nombre1 + "</option>";
         $("#selectprueba").append(option)
         $(this).closest('tr').remove();
       });
@@ -517,13 +518,14 @@
       var a = $("#selectprueba option:selected").val();
       var b = $("#selectprueba option:selected").text();
 
+
       console.log(x)
-      console.log(y)
+      console.log("REVISAR"+y)
       console.log(a)
       console.log(b)
 
       $("#selectprueba option:selected").remove();
-      var markup = "<tr class='idagregar'><td id='idquitar'value='" + y[0] + "' style='display:none'  >" + y[0] + "</td><td id='nombrequitar'>" + b + "</td><td id='fabricantequitar'>" + y[1] + "</td><td class='cant'>0</td><td id='unidadquitar'>" + y[2] + "</td><td>" + y[3] + "</td><td> <button type='button'  value='" + b + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+      var markup = "<tr class='idagregar'><td id='idquitar'value='" + y[0] + "' style='display:none'  >" + y[0] + "</td><td id='nombrequitar'>" + b + "</td><td id='fabricantequitar'>" + y[1] + "</td><td class='cant'>0</td><td id='unidadquitar'>" + y[2] + "</td><td id='costoquitar'>" + 0 + "</td><td> <button type='button'  value='" + b + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
       $("#agregadostabla").append(markup);
 
       $(function () {
@@ -557,7 +559,7 @@
 
   </script>
   <script>
-    $(document).ready(function () {
+    $(document).ready(function  () {
 
 
       $('#TablaProductos').DataTable(
@@ -628,6 +630,10 @@
 
       const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
 
+
+
+
+   
 
 
       $.ajax({
@@ -714,7 +720,7 @@
 
           });
     
-
+          datos();
           $("#costototal").val(costo);
           $('#costoProd').val(costo);
         },
