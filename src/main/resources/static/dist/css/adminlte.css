@@ -1853,15 +1853,17 @@ pre code {
 
 .table {
   width: 100%;
+  text-align: center;
+  vertical-align: center;
   margin-bottom: 1rem;
-  color: #212529;
+  color: #d11f1f;
   background-color: transparent;
 }
 
 .table th,
 .table td {
   padding: 0.75rem;
-  vertical-align: top;
+
   border-top: 1px solid #dee2e6;
 }
 

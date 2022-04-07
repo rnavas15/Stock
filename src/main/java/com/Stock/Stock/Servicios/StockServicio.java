@@ -34,6 +34,9 @@ public class StockServicio {
         ProductoStandar ps = new ProductoStandar();
         Articulo a = new Articulo();
         String tipo = productoServicio.buscarTipoProducto(id);
+        System.out.println("STOCK "+ stock);
+        System.out.println("STOCK "+ Double.valueOf(stock));
+
 
         MovimientoStock movimiento = new MovimientoStock();
 
@@ -55,7 +58,7 @@ public class StockServicio {
             a = productoServicio.buscarArticulo(Integer.valueOf(id));
             movimiento.setCantidadActual(a.getStock());
             movimiento.setCantidadIng((a.getStock() - Double.valueOf(stock)));
-            movimiento.setCantidadIng(Double.valueOf(stock));
+            movimiento.setCantidadNueva(Double.valueOf(stock));
 
             movimiento.setFechaMov(new Date());
             movimiento.setCostoActual(a.getCosto());
@@ -86,6 +89,7 @@ public class StockServicio {
 
         if (tipo.toLowerCase().equals("productostandar")) {
             ps = productoServicio.buscarProductoStandar(id);
+            
             movimiento.setCantidadActual(ps.getStock());
             movimiento.setCantidadIng((cant));
              movimiento.setCantidadNueva((ps.getStock() + cant));
@@ -115,7 +119,7 @@ public class StockServicio {
             movimiento.setCantidadIng(cant);
             movimiento.setCantidadNueva((a.getStock() + cant));
             Double cantidad=(a.getStock() + cant);
-        productoServicio.modificarStock(id.toString(),(cantidad).toString());
+        a.setStock(cantidad);
 
             movimiento.setFechaMov(new Date());
             movimiento.setCostoActual(a.getCosto());

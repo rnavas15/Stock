@@ -68,94 +68,105 @@ public class ProductoServicio {
         productoRepositorio.save(P);
 
     }
+
     @Transactional
-    public void modificarArticulo(Integer id,String fabricante, Integer stock, String nombre, Double costo, Double precioVenta, MultipartFile foto, String categoria, String unidad) throws Exception {
-        Articulo P =  productoRepositorio.buscarArticulo(id);
+    public void modificarArticulo(Integer id, String fabricante, Integer stock, String nombre, Double costo, Double precioVenta, MultipartFile foto, String categoria, String unidad) throws Exception {
+        Articulo P = productoRepositorio.buscarArticulo(id);
+        
+        Double costoprevio=P.getCosto();
+        System.out.println("ARTICULO COSTO PREVIO "+costoprevio);
+                System.out.println("NUEVO COSTO  "+costo);
+
         P.setFabricante(fabricante);
         P.setStock(0.0);
         P.setNombre(nombre);
         P.setCosto(costo);
-        if(!foto.isEmpty()){
-        P.setFoto(fotoServicio.guardar(foto));
+        if (!foto.isEmpty()) {
+            P.setFoto(fotoServicio.guardar(foto));
         };
         P.setPrecioVenta(precioVenta);
         P.setCategoria(Categoria.valueOf(categoria));
         P.setUnidad(UnidadesDeMedida.valueOf(unidad));
 
         productoRepositorio.save(P);
+        if (!costoprevio.equals(costo) ) {
+                        System.out.println("COMPARO DISTINTOS");
+
+            ingredienteServicio.modificarCostoIngredientes(id,costoprevio);
+        }else{
+            System.out.println("COMPARO IGUALES");
+        }
 
     }
+
     @Transactional
     public void modificarCostoProducto(ProductoCompuesto P) throws Exception {
-        
-                ProductoCompuesto Pr =  productoRepositorio.buscarProductoCompuesto(P.getProdId());
-                Pr.setCosto(P.getCosto());
-                   productoRepositorio.save(Pr);
+
+        ProductoCompuesto Pr = productoRepositorio.buscarProductoCompuesto(P.getProdId());
+        Pr.setCosto(P.getCosto());
+        productoRepositorio.save(Pr);
 
     }
-     @Transactional
+
+    @Transactional
     public void modificarStock(String id, String stock) throws Exception {
-        
-                
-                productoRepositorio.modificarStock(Integer.valueOf(id), Double.valueOf(stock));
+
+        productoRepositorio.modificarStock(Integer.valueOf(id), Double.valueOf(stock));
 
     }
+
     @Transactional
     public void modificarCosto(String id, String costo) throws Exception {
-        
-                
-                productoRepositorio.modificarCosto(Integer.valueOf(id), Double.valueOf(costo));
+
+        productoRepositorio.modificarCosto(Integer.valueOf(id), Double.valueOf(costo));
 
     }
-    
+
     @Transactional
     public void crearProductoCompuesto(String nombre, Double costo, Double precioVenta, MultipartFile foto, String categoria) throws Exception {
         ProductoCompuesto P = new ProductoCompuesto();
-            
-        
+
         P.setNombre(nombre);
         P.setCosto(costo);
         P.setFoto(fotoServicio.guardar(foto));
         P.setPrecioVenta(precioVenta);
         P.setCategoria(Categoria.valueOf(categoria));
-       
 
         productoRepositorio.save(P);
 
     }
-    
-  @Transactional
-    public void modificarProductoCompuesto(  Integer id,String nombre, Double costo, Double precioVenta, MultipartFile foto, String categoria) throws Exception {
+
+    @Transactional
+    public void modificarProductoCompuesto(Integer id, String nombre, Double costo, Double precioVenta, MultipartFile foto, String categoria) throws Exception {
         ProductoCompuesto P = productoRepositorio.buscarProductoCompuesto(id);
-            
-        
+
         P.setNombre(nombre);
         P.setCosto(costo);
-        if(!foto.isEmpty()){
-        P.setFoto(fotoServicio.guardar(foto));}
+        if (!foto.isEmpty()) {
+            P.setFoto(fotoServicio.guardar(foto));
+        }
         P.setPrecioVenta(precioVenta);
         P.setCategoria(Categoria.valueOf(categoria));
-       
 
         productoRepositorio.save(P);
 
     }
-    
+
     @Transactional
-    public void eliminarArticulo(Integer id){
+    public void eliminarArticulo(Integer id) {
         ingredienteServicio.eliminarIngredientes(id);
-        Articulo a=productoRepositorio.buscarArticulo(id);
+        Articulo a = productoRepositorio.buscarArticulo(id);
         productoRepositorio.delete(a);
-        
-        
+
     }
-            
+
     public List<Producto> buscarProductos() {
         List<Producto> productos = productoRepositorio.buscarProductos();
         return productos;
 
     }
-     public List<Producto> buscarProductosStandar() {
+
+    public List<Producto> buscarProductosStandar() {
         List<Producto> productos = productoRepositorio.buscarProductosStandar();
         return productos;
 
@@ -166,7 +177,7 @@ public class ProductoServicio {
         return productos;
 
     }
-    
+
 //     public Producto buscarArticulo(Integer id) {
 //        Optional <Producto> producto = productoRepositorio.findById(id);
 //        if(producto.isPresent()){
@@ -181,25 +192,24 @@ public class ProductoServicio {
         return productos;
 
     }
-    
 
     public ProductoStandar buscarProductoStandar(Integer Id) {
 
         return productoRepositorio.buscarProductoStandar(Id);
     }
-    
-     public Articulo buscarArticulo(Integer Id) {
+
+    public Articulo buscarArticulo(Integer Id) {
 
         return productoRepositorio.buscarArticulo(Id);
     }
-     
-      public Producto buscarProducto(Integer Id) {
+
+    public Producto buscarProducto(Integer Id) {
 
         return productoRepositorio.getById(Id);
     }
-      
-    public String buscarTipoProducto(String id){
+
+    public String buscarTipoProducto(String id) {
         return productoRepositorio.buscarTipoProducto(id);
-        
+
     }
 }

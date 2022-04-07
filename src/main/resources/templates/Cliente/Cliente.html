@@ -34,44 +34,40 @@
 
                   <div class="card">
                     <div class="card-header">
-                      <h3 class="card-title">Lista de Productos</h3>
+                      <h3 class="card-title">Lista de Clientes</h3>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
+                    <div id="refrescar" class="card-body">
                       <table id="TablaProductos" class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>Producto</th>
-                            <th>Costo</th>
-                            <th>Precio Venta</th>
-                            <th>Categoria</th>
-                            <th>Imagen</th>
+                            <th style="display: none;">ID</th>
+                            <th>Cliente</th>
+                            <th>CUIT</th>
+                            <th>Fecha Alta</th>
+                            <th>Fecha Baja</th>
                             <th>Acciones</th>
 
 
                           </tr>
                         </thead>
-                        <div id="refrescar">
+                        <div>
                           <tbody>
-                            <tr id="tablaPC" th:each="producto:${productos}">
-                              <td id="PCId" th:value="${producto.prodId}" th:class="${producto.prodId}"
-                                style="display:none" th:text="${producto.prodId}"></td>
-                              <td id="PCNombre" th:value="${producto.nombre}" th:text="${producto.nombre}"></td>
-                              <td id="PCCosto" th:text="${producto.costo}"></td>
-                              <td id="PCPrecio" th:text="${producto.precioVenta}"></td>
-                              <td id="PCCategoria" th:text="${producto.categoria}"></td>
+                            <tr id="tablaClientes" th:each="cliente:${clientes}">
+                              <td id="ClienteId" th:value="${cliente.clienteId}" th:class="${cliente.clienteId}"
+                                style="display:none" th:text="${cliente.clienteId}"></td>
+                              <td id="ClienteNombre" th:value="${cliente.razonSocial}" th:text="${cliente.razonSocial}"></td>
+                              <td id="ClienteCUIT" th:text="${cliente.CUIT}"></td>
+                              <td id="ClienteFechaAlta" th:text="${cliente.fechaAlta}"></td>
+                              <td id="ClienteFechaBaja" th:text="${cliente.fechaBaja}"></td>
 
-                              <td id="PCImage" th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
-                                  th:src="@{/foto/__${producto.prodId}__}" height="60" width="80"
-                                  alt="Imagen de Perfil">
-                              </td>
-                              <td th:unless="${producto.foto!=null}"></td>
+                              
 
                               <td id="ModificarProducto">
                                 <button class="btn btn-primary editar"
                                   th:attr="onclick=|myFunction('${producto.prodId}')|"><i
                                     class="fas fa-solid fa-pen"></i></button>
-                                <button class="btn btn-danger editar"
+                                <button class="btn btn-danger eliminar"
                                   th:attr="onclick=|eliminar('${producto.prodId}')|"><i
                                     class="fas fa-solid fa-trash"></i></button>
                               </td>
@@ -203,17 +199,7 @@
                   </div>
                 </form>
               </div>
-              <!-- /.card -->
 
-
-              <!-- /.card -->
-              <!-- Horizontal Form -->
-
-
-              <!--/.col (left) -->
-              <!-- right column -->
-
-              <!--/.col (right) -->
             </div>
             <div class="col-md-6">
               <!-- general form elements -->
@@ -228,8 +214,8 @@
                       <div class="row">
                         <div class="col-md-10">
                           <div class="form-group">
-                            <select class="ingredientes form-control select2 select2-hidden-accessible"
-                              style="width: 100%;" tabindex="-1" aria-hidden="true" id="selectprueba" name="categoria">
+                            <select class="ingredientes"
+                              style="width: 100%;"  id="selectprueba" name="categoria">
 
                             </select>
                           </div>
@@ -262,7 +248,7 @@
 
                       </tr>
                     </thead>
-                    <tbody id="agragadostabla">
+                    <tbody id="agregadostabla">
 
                     </tbody>
                   </table>
@@ -298,40 +284,31 @@
 
 
         </div>
-        <!-- /.card -->
 
 
-        <!-- /.card -->
-        <!-- Horizontal Form -->
 
+        <!-- /.row -->
+        
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
 
-        <!--/.col (left) -->
-        <!-- right column -->
-
-        <!--/.col (right) -->
     </div>
 
-    <!-- /.row -->
-  </div><!-- /.container-fluid -->
-  </section>
-  <!-- /.content -->
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-block">
 
-  </div>
+        <b>Version</b> 3.1.0
+      </div>
+      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    </footer>
 
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-
-      <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
 
@@ -342,15 +319,144 @@
 
 
 
-  <script>
-    $(function () {
-      bsCustomFileInput.init();
-    });
-  </script>
-  <script>
-    $("#myselect").selectpicker();
-  </script>
 
+ <script th:inline="javascript">
+  function myFunction(id) {
+
+    $(document).one('click', '.editar', function (event) {
+      event.preventDefault();
+      $(".ingredientes").empty();
+
+      
+      
+      $("#formularioProductoCompuesto").attr("action", "/ProductoCompuesto/modificar-productoCompuesto")
+      var BTN = $("#cambiar")
+      $("#costoProd").prop('disabled', true)
+
+
+      BTN.text("Modificar")
+
+
+
+      $("#agregadostabla").empty();
+
+
+      $("#ingredientes").find(".ingredientes").prop('disabled', false)
+      var option;
+      var nombre;
+      var nombre1;
+
+      nombre = $(this).closest('tr').find('td').each(function () {
+        $(this).parent().find("#PCNombre").each(function () { $(this).text() })
+
+
+      })
+      nombre1 = nombre.parent().find("#PCNombre").text();
+
+      costo = nombre.parent().find("#PCCosto").text();
+      precio = nombre.parent().find("#PCPrecio").text();
+      categoria = nombre.parent().find("#PCCategoria").text();
+      costo = nombre.parent().find("#PCCosto").text();
+      prodId = nombre.parent().find("#PCId").text();
+      var image = new Image;
+      $(".htmlChunk img.Thumb")
+      var img = nombre.parent().find("#PCImage");
+
+
+     
+
+      const div = document.querySelector("#imagen")
+      if (img.length == 0) {
+        console.log("VACIO")
+        div.innerHTML = ""
+      } else {
+        img1 = img[0].innerHTML;
+        console.log(img1)
+
+        const div = document.querySelector("#imagen")
+        div.innerHTML = img1
+        // $("#imagen").append("<img class='d-inline-block align-top'th:src='"+prueba+"' height='60' width='80' alt='Imagen de Perfil'>")
+
+      }
+      // console.log("STRING "+ prueba)
+      $('#nombreProd').val(nombre1);
+
+      $('#precioProd').val(precio);
+      $('#categoria').val(categoria);
+      $('#prodId').val(prodId);
+      $("#imagen").val(image)
+       /*<![CDATA[*/
+       var articulos =/*[[${articulos}]]*/"Art";
+        /*]]>*/
+      var nuevosing = articulos;
+
+      $.getJSON("http://localhost:8080/ingredientes/llenardata/" + id, function (result) {
+
+
+
+
+
+        for (var i = 0; i < result.length; i++) {
+
+          console.log(result[i])
+          console.log(result[i].articulo.prodId)
+
+          if (!articulos.includes(result[i])) {
+            nuevosing = nuevosing.filter(function (x) { return x.prodId != result[i].articulo.prodId; });
+
+          }
+          markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'>" + result[i].cantidad + "</td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td id='costoquitar'>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+          $("#agregadostabla").append(markup);
+        }
+
+        for (i = 0; i < nuevosing.length; i++) {
+          option = "<option id='" + nuevosing[i].prodId + "' text='" + nuevosing[i].nombre + "'value='" + nuevosing[i].prodId + "," + nuevosing[i].fabricante + "," + nuevosing[i].unidad + "," + nuevosing[i].costo + "'>" + nuevosing[i].nombre + "</option>";
+          $("#selectprueba").append(option)
+        }
+        
+        var indice = document.getElementById("agregadostabla").rows.length;
+        var costo1 = 0.0;
+        for (i = 0; i < indice; i++) {
+          //console.log(document.getElementById("agragadostabla").rows[i].cells[5].innerHTML)
+          costo1 += parseFloat(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
+        }
+        $("#costototal").val(costo1);
+        $('#costoProd').val(costo1);
+
+        $(function () {
+          $(".cant").click(function () {
+            var OriginalContent = $(this).text();
+            $(this).addClass("cellEditing");
+            $(this).html("<input type='text' value='" + OriginalContent + "' />");
+            $(this).children().first().focus();
+            $(this).children().first().keypress(function (e) {
+              if (e.which == 13) {
+                var newContent = $(this).val();
+                $(this).parent().text(newContent);
+                $(this).parent().removeClass("cellEditing");
+              }
+            });
+            $(this).children().first().blur(function () {
+              $(this).parent().text(OriginalContent);
+              $(this).parent().removeClass("cellEditing");
+            });
+            $(this).find('input').click(function (e) {
+              e.stopPropagation();
+            });
+          });
+        });
+
+
+      });
+    });
+    $('#selectprueba').selectize({
+            sortField: 'text'
+            
+          });
+  }
+
+
+</script>
   <script>
     $("#add-soy-sauce-button").click(function () {
       var newitemnum = 4;
@@ -381,12 +487,13 @@
         id1 = nombre.parent().find("#idquitar").text();
         fabricante = nombre.parent().find("#fabricantequitar").text();
         unidad = nombre.parent().find("#unidadquitar").text();
+        costo = nombre.parent().find("#costoquitar").text();
 
 
 
 
 
-        option = "<option id='" + id1 + "' text='" + nombre1 + "'value='" + id1 + "," + fabricante + "," + unidad + "'>" + nombre1 + "</option>";
+        option = "<option id='" + id1 + "' text='" + nombre1 + "'value='" + id1 + "," + fabricante + "," + unidad + "," + costo + "'>" + nombre1 + "</option>";
         $("#selectprueba").append(option)
         $(this).closest('tr').remove();
       });
@@ -407,14 +514,15 @@
       var a = $("#selectprueba option:selected").val();
       var b = $("#selectprueba option:selected").text();
 
+
       console.log(x)
-      console.log(y)
+      console.log("REVISAR"+y)
       console.log(a)
       console.log(b)
 
       $("#selectprueba option:selected").remove();
-      var markup = "<tr class='idagregar'><td id='idquitar'value='" + y[0] + "' style='display:none'  >" + y[0] + "</td><td id='nombrequitar'>" + b + "</td><td id='fabricantequitar'>" + y[1] + "</td><td class='cant'>0</td><td id='unidadquitar'>" + y[2] + "</td><td>" + y[3] + "</td><td> <button type='button'  value='" + b + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
-      $("#agragadostabla").append(markup);
+      var markup = "<tr class='idagregar'><td id='idquitar'value='" + y[0] + "' style='display:none'  >" + y[0] + "</td><td id='nombrequitar'>" + b + "</td><td id='fabricantequitar'>" + y[1] + "</td><td class='cant'>0</td><td id='unidadquitar'>" + y[2] + "</td><td id='costoquitar'>" + 0 + "</td><td> <button type='button'  value='" + b + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+      $("#agregadostabla").append(markup);
 
       $(function () {
         $(".cant").click(function () {
@@ -446,185 +554,44 @@
 
 
   </script>
+  <script>
+    $(document).ready(function  () {
 
 
-
-
-  <script th:inline="javascript">
-    function myFunction(id) {
-
-      $(document).one('click', '.editar', function (event) {
-        event.preventDefault();
-        $(".ingredientes").empty();
-        /*<![CDATA[*/
-        var ingredientes =/*[[${articulos}]]*/"Art";
-
-        $("#costoProd").prop('disabled', true)
-
-
-        /*]]>*/
-        $("#formularioProductoCompuesto").attr("action", "/ProductoCompuesto/modificar-productoCompuesto")
-        var BTN = $("#cambiar")
-
-
-        BTN.text("Modificar")
-
-
-
-        $("#agragadostabla").empty();
-
-
-        $("#ingredientes").find(".ingredientes").prop('disabled', false)
-        var option;
-        var nombre;
-        var nombre1;
-
-        nombre = $(this).closest('tr').find('td').each(function () {
-          $(this).parent().find("#PCNombre").each(function () { $(this).text() })
-
-
-        })
-        nombre1 = nombre.parent().find("#PCNombre").text();
-
-        costo = nombre.parent().find("#PCCosto").text();
-        precio = nombre.parent().find("#PCPrecio").text();
-        categoria = nombre.parent().find("#PCCategoria").text();
-        costo = nombre.parent().find("#PCCosto").text();
-        prodId = nombre.parent().find("#PCId").text();
-        var image = new Image;
-        $(".htmlChunk img.Thumb")
-        var img = nombre.parent().find("#PCImage");
-
-
-        console.log("IMG INICIAL" + img.length)
-
-        const div = document.querySelector("#imagen")
-        if (img.length == 0) {
-          console.log("VACIO")
-          div.innerHTML = ""
-        } else {
-          img1 = img[0].innerHTML;
-          console.log(img1)
-
-          const div = document.querySelector("#imagen")
-          div.innerHTML = img1
-          // $("#imagen").append("<img class='d-inline-block align-top'th:src='"+prueba+"' height='60' width='80' alt='Imagen de Perfil'>")
-
-        }
-        // console.log("STRING "+ prueba)
-        $('#nombreProd').val(nombre1);
-
-        $('#precioProd').val(precio);
-        $('#categoria').val(categoria);
-        $('#prodId').val(prodId);
-        $("#imagen").val(image)
-        var nuevosing = ingredientes;
-
-        $.getJSON("http://localhost:8080/ingredientes/llenardata/" + id, function (result) {
-
-
-
-
-
-          for (var i = 0; i < result.length; i++) {
-
-            console.log(result[i])
-            console.log(result[i].articulo.prodId)
-
-            if (!ingredientes.includes(result[i])) {
-              console.log("ENCONTRADO" + result[i].articulo.nombre)
-              nuevosing = nuevosing.filter(function (x) { return x.prodId != result[i].articulo.prodId; });
+      $('#TablaProductos').DataTable(
+        {
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "responsive": true,
+          "columnDefs": [
+            {
+              "orderable": false, "targets": 6,
 
             }
-            markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'>" + result[i].cantidad + "</td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
-            $("#agragadostabla").append(markup);
-          }
+          ],
+          "dom": 'Bfrtip',
+          "buttons": [
 
-          for (i = 0; i < nuevosing.length; i++) {
-            option = "<option id='" + nuevosing[i].prodId + "' text='" + nuevosing[i].nombre + "'value='" + nuevosing[i].prodId + "," + nuevosing[i].fabricante + "," + nuevosing[i].unidad + "," + nuevosing[i].costo + "'>" + nuevosing[i].nombre + "</option>";
-            $("#selectprueba").append(option)
-          }
-          var indice = document.getElementById("agragadostabla").rows.length;
-          var costo1 = 0.0;
-          for (i = 0; i < indice; i++) {
-            //console.log(document.getElementById("agragadostabla").rows[i].cells[5].innerHTML)
-            costo1 += parseFloat(document.getElementById("agragadostabla").rows[i].cells[5].innerHTML)
-          }
-          $("#costototal").val(costo1);
-          $('#costoProd').val(costo1);
-
-          $(function () {
-            $(".cant").click(function () {
-              var OriginalContent = $(this).text();
-              $(this).addClass("cellEditing");
-              $(this).html("<input type='text' value='" + OriginalContent + "' />");
-              $(this).children().first().focus();
-              $(this).children().first().keypress(function (e) {
-                if (e.which == 13) {
-                  var newContent = $(this).val();
-                  $(this).parent().text(newContent);
-                  $(this).parent().removeClass("cellEditing");
-                }
-              });
-              $(this).children().first().blur(function () {
-                $(this).parent().text(OriginalContent);
-                $(this).parent().removeClass("cellEditing");
-              });
-              $(this).find('input').click(function (e) {
-                e.stopPropagation();
-              });
-            });
-          });
-
-
-        });
-      });
-
-    }
-
-
+            'copyHtml5',
+            'csvHtml5',
+            'excelHtml5',
+            'pdfHtml5',
+            'print'
+          ]
+        }
+      );
+    })
   </script>
 
-  <script>/*
-function myFunction1(id) {
-$(document).on('click', ('#agregaringredientes', function (event) {
-event.preventDefault();
-
-
-
-$("#ingredientes").find(".ingredientes").prop('disabled', false)
-var option;
-var nombre;
-var nombre1;
-
-nombre = $(this).closest('tr').find('td').each(function () {
-$(this).parent().find("#PCNombre").each(function () { $(this).text() })
-
-
-})
-nombre1 = nombre.parent().find("#PCNombre").text();
-
- 
-precio = nombre.parent().find("#PCPrecio").text();
-categoria = nombre.parent().find("#PCCategoria").text();
- 
-$('#prodId').val(id);
-$('#nombreProd').val(nombre1);
- 
-$('#precioProd').val(precio);
-$('#categoria').val(categoria);
 
 
 
 
 
-
-
- 
-}));
-};
-*/
-  </script>
 
 
   <script>
@@ -636,15 +603,15 @@ $('#categoria').val(categoria);
 
       var ids = "";
       var cant = "";
-      var costo = 0;
-      var indice = document.getElementById("agragadostabla").rows.length;
+      var costo = 0.0;
+      var indice = document.getElementById("agregadostabla").rows.length;
 
       for (i = 0; i < indice; i++) {
 
-        ids += (",{'id':" + document.getElementById("agragadostabla").rows[i].cells[0].innerHTML + "}")
+        ids += (",{'id':" + document.getElementById("agregadostabla").rows[i].cells[0].innerHTML + "}")
 
-        cant += (",{'cantidad':" + document.getElementById("agragadostabla").rows[i].cells[3].innerHTML + "}")
-        costo += (document.getElementById("agragadostabla").rows[i].cells[4].innerHTML)
+        cant += (",{'cantidad':" + document.getElementById("agregadostabla").rows[i].cells[3].innerHTML + "}")
+        costo += Number(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
       }
       $("#costototal").val(costo);
       var ids = JSON.parse(JSON.stringify("[" + ids.substring(1) + "]"))
@@ -653,26 +620,16 @@ $('#categoria').val(categoria);
 
       var productoID = $("#prodId").val();
 
-      // console.log("CANT STRING"+JSON.stringify(cant))
-
-      //console.log(JSON.stringify(productoID))
 
 
-      //  var token = $("meta[name='_csrf']").attr("content");
-      // var header = $("meta[name='_csrf_header']").attr("content");
-      //  console.log ("TOKEN "+token)
-      // console.log ("HEADER "+header)
 
-      //var csrfToken = $("meta[name='_csrf']").attr("content");
+
       const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
-      // $(document).ajaxSend(function (e, xhr, options) {
-      //  xhr.setRequestHeader(header, token);
 
-      //})
-      console.log(productoID)
-      console.log(ids)
-      console.log(json)
-      console.log(csrfToken)
+
+
+
+   
 
 
       $.ajax({
@@ -691,9 +648,77 @@ $('#categoria').val(categoria);
         success: function (data, textStatus, jqXHR) {
         },
         complete: function (result) {
-          // console.log()
-          alert(result.responseText);
 
+          alert(result.responseText);
+          $("#refrescar").load("/ProductoCompuesto/Refrescar #refrescar", function (response, status, xhr) {
+
+          })
+          id = $('#prodId').val();
+          $(".ingredientes").empty();
+          /*<![CDATA[*/
+          var ingredientes =/*[[${articulos}]]*/"Art";
+
+          $("#costoProd").prop('disabled', true)
+
+
+          /*]]>*/
+
+
+          $.getJSON("http://localhost:8080/ingredientes/llenardata/" + id, function (result) {
+
+            $("#agregadostabla").empty();
+
+
+
+            for (var i = 0; i < result.length; i++) {
+
+              console.log(result[i])
+              console.log(result[i].articulo.prodId)
+
+
+              markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'>" + result[i].cantidad + "</td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+              $("#agregadostabla").append(markup);
+            }
+
+
+            var indice = document.getElementById("agregadostabla").rows.length;
+            var costo1 = 0.0;
+            for (i = 0; i < indice; i++) {
+              //console.log(document.getElementById("agragadostabla").rows[i].cells[5].innerHTML)
+              costo1 += parseFloat(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
+            }
+            $("#costototal").val(costo1);
+            $('#costoProd').val(costo1);
+
+            $(function () {
+              $(".cant").click(function () {
+                var OriginalContent = $(this).text();
+                $(this).addClass("cellEditing");
+                $(this).html("<input type='text' value='" + OriginalContent + "' />");
+                $(this).children().first().focus();
+                $(this).children().first().keypress(function (e) {
+                  if (e.which == 13) {
+                    var newContent = $(this).val();
+                    $(this).parent().text(newContent);
+                    $(this).parent().removeClass("cellEditing");
+                  }
+                });
+                $(this).children().first().blur(function () {
+                  $(this).parent().text(OriginalContent);
+                  $(this).parent().removeClass("cellEditing");
+                });
+                $(this).find('input').click(function (e) {
+                  e.stopPropagation();
+                });
+              });
+            });
+
+
+          });
+    
+          datos();
+          $("#costototal").val(costo);
+          $('#costoProd').val(costo);
         },
         error: function (jqXHR, textStatus, errorThrown) {
 
@@ -702,7 +727,10 @@ $('#categoria').val(categoria);
 
       });
 
-      // $("#formularioProductoCompuesto").load('/ProductoCompuesto/');
+
+     
+
+
 
 
     })

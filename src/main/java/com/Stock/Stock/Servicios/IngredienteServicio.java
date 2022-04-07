@@ -117,7 +117,7 @@ public List<Ingrediente> buscarIngredientesProducto(String id) {
     }
 public List<Ingrediente> buscarIngredienteArticulo(Integer id) {
 
-        return ingredienteRepositorio.buscarIngredientesProducto(Integer.valueOf(id));
+        return ingredienteRepositorio.buscarIngredientesProducto(id);
     }
 public void eliminarIngredientes(Integer id){
     List<Ingrediente>ingredientes=buscarIngredienteArticulo(id);
@@ -126,5 +126,29 @@ public void eliminarIngredientes(Integer id){
         ingredienteRepositorio.delete(next);
         
     }
+}
+
+public void modificarCostoIngredientes(Integer artId,Double costoPrevioArt){
+     List<Ingrediente>ingredientes=ingredienteRepositorio.buscarIngredienteArticulo(artId);
+    System.out.println("TAMAÑO LISTA "+ingredientes.size());
+    for (Iterator<Ingrediente> iterator = ingredientes.iterator(); iterator.hasNext();) {
+         Double costoNuevoArtXIng=0.0;
+         Double costoAnteriorArtXIng=0.0;
+         ProductoCompuesto PC=null;
+        Ingrediente next = iterator.next();
+        
+        System.out.println(" INFORMACION DEL ITERADOR" + next);
+       costoNuevoArtXIng =(next.getArticulo().getCosto()*next.getCantidad());
+        costoAnteriorArtXIng=(costoPrevioArt*next.getCantidad());
+        PC=productoRepositorio.buscarProductoCompuesto(next.getProductoCompuesto().getProdId());
+        System.out.println("NUEVO COSTO ART"+ costoNuevoArtXIng);
+        System.out.println("NUEVO COSTO ART"+ costoAnteriorArtXIng);
+
+        PC.setCosto(PC.getCosto()-costoAnteriorArtXIng+costoNuevoArtXIng);
+        productoRepositorio.save(PC);
+        
+}
+   
+    
 }
 }

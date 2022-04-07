@@ -56,5 +56,25 @@ public class ProveedorServicio {
     public Proveedor buscarProveedor(Integer id){
         return proveedorRepositorio.getById(id);
     }
+    
+    
+    
+    @Transactional
+    public void altaBajaProveedor(String id){
+        
+        Proveedor p=proveedorRepositorio.getById(Integer.valueOf(id));
+        
+                    System.out.println("P:GETSTADO "+p.getEstado());
+
+        if(p.getEstado()){
+         
+            p.setEstado(Boolean.FALSE);
+            
+
+        }else{
+            p.setEstado(Boolean.TRUE);
+        }
+        proveedorRepositorio.save(p);
+    }
 
 }

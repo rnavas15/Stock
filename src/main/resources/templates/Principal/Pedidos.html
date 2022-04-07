@@ -28,11 +28,11 @@
       <!-- Content Header (Page header) -->
       <div class="contenedor">
         <ul class="ul ">
-          <li class="li active"><a href="#ProveedoresT">Proveedores</a></li>
+          <li class="li active"><a href="#ClientesT">Clientes</a></li>
           <li class="li"><a href="#Historial">Historial</a></li>
         </ul>
         <div class="subcontenedor">
-          <div id="ProveedoresT" class="bloque active">
+          <div id="ClientesT" class="bloque active">
             <section class="content-header">
               <div class="container-fluid">
 
@@ -48,14 +48,14 @@
 
                         <div class="card">
                           <div class="card-header">
-                            <h3 class="card-title">Lista de Proveedores</h3>
+                            <h3 class="card-title">Lista de Clientes</h3>
                           </div>
                           <!-- /.card-header -->
                           <div class="card-body">
-                            <table id="Proveedores" class="table table-bordered table-striped">
+                            <table id="Clientes" class="table table-bordered table-striped">
                               <thead>
                                 <tr>
-                                  <th>Proveedor</th>
+                                  <th>Cliente</th>
                                   <th>CUIT</th>
 
                                   <th>Acciones</th>
@@ -64,53 +64,53 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr id="tablaP" th:each="proveedor:${proveedores}">
-                                  <td id="ProvId" th:value="${proveedor.proveedorId}"
-                                    th:class="${proveedor.proveedorId}" style="display:none"
-                                    th:text="${proveedor.proveedorId}" readonly></td>
-                                  <td id="ProvNombre" th:text="${proveedor.razonSocial}"></td>
-                                  <td id="ProvCUIT" th:text="${proveedor.CUIT}"></td>
+                                <tr id="tablaC" th:each="cliente:${clientes}">
+                                  <td id="CliId" th:value="${cliente.clienteId}"
+                                    th:class="${cliente.clienteId}" style="display:none"
+                                    th:text="${cliente.clienteId}" readonly></td>
+                                  <td id="CliNombre" th:text="${cliente.razonSocial}"></td>
+                                  <td id="CliCUIT" th:text="${cliente.CUIT}"></td>
 
 
 
-                                  <td id="ModificarProveedor">
-                                    <div th:if="${proveedor.estado}">
-                                      <button class="btn btn-primary editar" id="EditarProv"
-                                        th:attr="onclick=|myFunction('${proveedor.proveedorId}')|"><i
+                                  <td id="ModificarCliente">
+                                    <div th:if="${cliente.estado}">
+                                      <button class="btn btn-primary editar" id="EditarCli"
+                                        th:attr="onclick=|myFunction('${cliente.clienteId}')|"><i
                                           class="fas fa-solid fa-pen"></i></button>
-                                      <button class="btn btn-danger eliminar" id="EliminarProv"
-                                        th:attr="onclick=|eliminar('${proveedor.proveedorId}')|"><i
+                                      <button class="btn btn-danger eliminar" id="EliminarCli"
+                                        th:attr="onclick=|eliminar('${cliente.clienteId}')|"><i
                                           class="fas fa-solid fa-trash"></i></button>
-                                      <button class="btn btn-danger gastos editar" id="GastosProv"
-                                        th:attr="onclick=|gasto('${proveedor.proveedorId}')|"><i
+                                      <button class="btn btn-danger gastos editar" id="GastosCli"
+                                        th:attr="onclick=|gasto('${cliente.clienteId}')|"><i
                                           class="fas fa-solid fa-dollar-sign"></i></button>
                                       <button class="btn">
                                         <i id="altabaja" class="switches">
                                           <li>
-                                            <input class="ab" type="checkbox" checked th:id="${proveedor.proveedorId}">
-                                            <label th:for="${proveedor.proveedorId}">
+                                            <input class="ab" type="checkbox" checked th:id="${cliente.clienteId}">
+                                            <label th:for="${cliente.clienteId}">
 
                                               <span></span>
                                             </label>
                                           </li>
                                         </i></button>
                                     </div>
-                                    <div th:unless="${proveedor.estado}">
-                                      <button class="btn btn-primary editar" disabled id="EditarProv"
-                                        th:attr="onclick=|myFunction('${proveedor.proveedorId}')|"><i
+                                    <div th:unless="${cliente.estado}">
+                                      <button class="btn btn-primary editar" disabled id="EditarCli"
+                                        th:attr="onclick=|myFunction('${cliente.clienteId}')|"><i
                                           class="fas fa-solid fa-pen"></i></button>
-                                      <button class="btn btn-danger eliminar" disabled id="EliminarProv"
-                                        th:attr="onclick=|eliminar('${proveedor.proveedorId}')|"><i
+                                      <button class="btn btn-danger eliminar" disabled id="EliminarCli"
+                                        th:attr="onclick=|eliminar('${cliente.clienteId}')|"><i
                                           class="fas fa-solid fa-trash"></i></button>
-                                      <button class="btn btn-danger gastos editar" disabled id="GastosProv"
-                                        th:attr="onclick=|gasto('${proveedor.proveedorId}')|"><i
+                                      <button class="btn btn-danger gastos editar" disabled id="GastosCli"
+                                        th:attr="onclick=|gasto('${cliente.clienteId}')|"><i
                                           class="fas fa-solid fa-dollar-sign"></i></button>
                                       <button class="btn">
                                         <i id="altabaja" class="switches">
                                           <li>
-                                            <input class="ab" type="checkbox" th:value="${proveedor.razonSocial}"
-                                              th:id="${proveedor.proveedorId}">
-                                            <label th:for="${proveedor.proveedorId}">
+                                            <input class="ab" type="checkbox" th:value="${cliente.razonSocial}"
+                                              th:id="${cliente.clienteId}">
+                                            <label th:for="${cliente.clienteId}">
 
                                               <span></span>
                                             </label>
@@ -140,7 +140,7 @@
 
                 <div class="row mb-2">
                   <div class="col-sm-6">
-                    <h1>NUEVO PROVEEDOR </h1>
+                    <h1>NUEVO CLIENTE </h1>
                   </div>
                 </div>
               </div>
@@ -155,27 +155,27 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                       <div class="card-header">
-                        <h3 class="card-title">PROVEEDOR</h3>
+                        <h3 class="card-title">CLIENTE</h3>
                       </div>
 
-                      <form id="formularioProveedor" class="needs-validation mb-4"
-                        th:action="@{/Proveedor/crear-proveedor}" method="post" autocomplete="off" novalidate
+                      <form id="formularioCliente" class="needs-validation mb-4"
+                        th:action="@{/Pedido/crear-cliente}" method="post" autocomplete="off" novalidate
                         enctype="multipart/form-data">
                         <div class="card-body">
                           <div class="form-group mb-3">
-                            <label for="idProv">ID del Proveedor</label>
-                            <input name="id" type="text" class="form-control" placeholder="ID" id="idProv" readonly>
+                            <label for="idCli">ID del Cliente</label>
+                            <input name="id" type="text" class="form-control" placeholder="ID" id="idCli" readonly>
                           </div>
                         </div>
                         <div class="form-group mb-3">
-                          <label for="nombreProv">Razon Social</label>
-                          <input name="nombre" type="text" class="form-control" required id="nombreProv"
+                          <label for="nombreCli">Razon Social</label>
+                          <input name="nombre" type="text" class="form-control" required id="nombreCli"
                             placeholder="Razon Social">
                           <div class="invalid-feedback text-start">El campo Razon Social es obligatorio</div>
                         </div>
                         <div class="form-group">
-                          <label for="CUITProv">CUIT</label>
-                          <input name="CUIT" type="number" class="form-control"  id="CUITProv"
+                          <label for="CUITCli">CUIT</label>
+                          <input name="CUIT" type="number" class="form-control"  id="CUITCli"
                             placeholder="CUIT">
                         </div>
 
@@ -195,12 +195,12 @@
                     <!-- general form elements -->
                     <div class="card card-primary " id="ingredientes">
                       <div class="card-header">
-                        <h3 class="card-title">Productos</h3>
+                        <h3 class="card-title">PEDIDO</h3>
                       </div>
                       <section class="content">
                         <div class="container-fluid">
                           <div class="form-group">
-                            <label>GASTOS</label>
+                            <label>Productos</label>
                             <div class="row">
                               <div class="col-md-10">
                                 <div class="form-group">
@@ -283,7 +283,7 @@
 
                         <div class="card">
                           <div class="card-header">
-                            <h3 class="card-title">Lista de Gastos</h3>
+                            <h3 class="card-title">Lista de Pedidos</h3>
 
                           </div>
 
@@ -293,7 +293,7 @@
                             <table id="GHistorial" class="table table-bordered table-striped">
                               <thead>
                                 <tr>
-                                  <th>Proveedor</th>
+                                  <th>Cliente</th>
                                   <th>Monto</th>
                                   <th>Fecha</th>
                                   <th>Acciones</th>
@@ -409,7 +409,7 @@
     (() => {
       "use strict";
 
-      const form = document.getElementById("formularioProveedor");
+      const form = document.getElementById("formularioCliente");
       form.addEventListener("submit", (event) => {
         if (!form.checkValidity()) {
           event.preventDefault();
@@ -435,13 +435,13 @@
 
       if (!$(this).context.checked) {
 
-        dardebaja = confirm("Desea dar de baja al Proveedor?")
+        dardebaja = confirm("Desea dar de baja al Cliente?")
 
         if (dardebaja) {
           var x = $(this).closest("td").find("button").each(function () {
-            $(this).parent().find("#EditarProv").prop('disabled', true)
-            $(this).parent().find("#EliminarProv").prop('disabled', true)
-            $(this).parent().find("#GastosProv").prop('disabled', true)
+            $(this).parent().find("#EditarCli").prop('disabled', true)
+            $(this).parent().find("#EliminarCli").prop('disabled', true)
+            $(this).parent().find("#GastosCli").prop('disabled', true)
 
           })
 
@@ -449,7 +449,7 @@
 
           $.ajax({
             type: "POST",
-            url: "http://localhost:8080/Proveedor1/baja/",
+            url: "http://localhost:8080/Cliente1/baja/",
             headers: { 'X-XSRF-TOKEN': csrfToken },
             data: {
               id: id,
@@ -481,19 +481,19 @@
 
         if ($(this).context.checked) {
 
-          dardebaja = confirm("Desea dar de alta al Proveedor?")
+          dardebaja = confirm("Desea dar de alta al Cliente?")
           var x = $(this).closest("td").find("button").each(function () {
-            $(this).parent().find("#EditarProv").prop('disabled', false)
-            $(this).parent().find("#EliminarProv").prop('disabled', false)
-            $(this).parent().find("#GastosProv").prop('disabled', false)
+            $(this).parent().find("#EditarCli").prop('disabled', false)
+            $(this).parent().find("#EliminarCli").prop('disabled', false)
+            $(this).parent().find("#GastosCli").prop('disabled', false)
 
           })
 
           if (dardebaja) {
-            $(this).closest("button").find("#EditarProv").prop('disabled', false)
+            $(this).closest("button").find("#EditarCli").prop('disabled', false)
             $.ajax({
               type: "POST",
-              url: "http://localhost:8080/Proveedor1/baja/",
+              url: "http://localhost:8080/Cliente1/baja/",
               headers: { 'X-XSRF-TOKEN': csrfToken },
               data: {
                 id: id,
@@ -507,11 +507,7 @@
               },
               complete: function (result) {
 
-                //alert("EL Proveedor "+$(this).context+" ha sido dado de alta");
-
-                //    $("#EditarProv").prop('disabled',false)
-                //$("#EliminarProv").prop('disabled',false)
-                //$("#GastosProv").prop('disabled',false)
+              
 
 
 
@@ -529,7 +525,6 @@
 
 
 
-      // console.log("funciona")
     })
 
 
@@ -638,7 +633,7 @@
 
 
 
-      var proveedorId = $("#idProv").val();
+      var clienteId = $("#idCli").val();
       var ids = "";
       var cant = "";
       var costo = 0.0;
@@ -668,7 +663,7 @@
         url: "http://localhost:8080/Gasto/cargar-gasto/",
         headers: { 'X-XSRF-TOKEN': csrfToken },
         data: {
-          proveedorId: proveedorId,
+          clienteId: clienteId,
           productoId: ids,
           cant: cant,
           monto: monto,
@@ -828,7 +823,7 @@
         event.preventDefault();
         var boton = $("#cambiar");
         boton.text("Modificar");
-        $("#formularioProveedor").attr("action", "/Proveedor/modificar-proveedor")
+        $("#formularioCliente").attr("action", "/Pedido/modificar-cliente")
 
 
 
@@ -837,17 +832,17 @@
         var nombre1;
 
         nombre = $(this).closest('tr').find('td').each(function () {
-          $(this).parent().find("#ProvNombre").each(function () { $(this).text() })
+          $(this).parent().find("#CliNombre").each(function () { $(this).text() })
 
 
         })
-        nombre1 = nombre.parent().find("#ProvNombre").text();
-        id1 = nombre.parent().find("#ProvId").text();
-        CUIT = nombre.parent().find("#ProvCUIT").text();
+        nombre1 = nombre.parent().find("#CliNombre").text();
+        id1 = nombre.parent().find("#CliId").text();
+        CUIT = nombre.parent().find("#CliCUIT").text();
 
-        $('#idProv').val(id1);
-        $('#nombreProv').val(nombre1);
-        $('#CUITProv').val(CUIT);
+        $('#idCli').val(id1);
+        $('#nombreCli').val(nombre1);
+        $('#CUITCli').val(CUIT);
 
       });
 
@@ -865,7 +860,7 @@
         $("#agregadostabla").empty()
         var boton = $("#cambiar");
         boton.text("Modificar");
-        $("#formularioProveedor").attr("action", "/Proveedor/modificar-proveedor")
+        $("#formularioCliente").attr("action", "/Cliente/modificar-cliente")
 
 
 
@@ -874,17 +869,17 @@
         var nombre1;
 
         nombre = $(this).closest('tr').find('td').each(function () {
-          $(this).parent().find("#ProvNombre").each(function () { $(this).text() })
+          $(this).parent().find("#CliNombre").each(function () { $(this).text() })
 
 
         })
-        nombre1 = nombre.parent().find("#ProvNombre").text();
-        id1 = nombre.parent().find("#ProvId").text();
-        CUIT = nombre.parent().find("#ProvCUIT").text();
+        nombre1 = nombre.parent().find("#CliNombre").text();
+        id1 = nombre.parent().find("#CliId").text();
+        CUIT = nombre.parent().find("#CliCUIT").text();
 
-        $('#idProv').val(id1);
-        $('#nombreProv').val(nombre1);
-        $('#CUITProv').val(CUIT);
+        $('#idCli').val(id1);
+        $('#nombreCli').val(nombre1);
+        $('#CUITCli').val(CUIT);
         $("#selectprueba").empty()
         $.getJSON("http://localhost:8080/Gasto/llenardata/", function (result) {
 
@@ -989,7 +984,7 @@
     window.onload = function () {
 
 
-      $('#Proveedores').DataTable(
+      $('#Clientes').DataTable(
         {
           "paging": true,
           "lengthChange": false,

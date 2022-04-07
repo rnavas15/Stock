@@ -5,12 +5,16 @@
  */
 package com.Stock.Stock.Entidades;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -27,21 +31,26 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Cliente {
-    
+public class Cliente implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    Integer clienteID;
-    
-    Long CUIT;
-    String razonSocial;
-    
-    @Temporal(TemporalType.DATE)
-    Date fechaAlta;
-    
-    @Temporal(TemporalType.DATE)
-    Date fechaBaja;
+    private Integer clienteId;
 
-    Boolean estado;
+    private Long CUIT;
+    
+    private String razonSocial;
+
+    @Temporal(TemporalType.DATE)
+    private Date fechaAlta;
+
+    @Temporal(TemporalType.DATE)
+    private Date fechaBaja;
+
+    @JsonIgnore
+    @OneToMany (mappedBy = "cliente")
+    private List<Pedido> pedido;
+
+    private Boolean estado;
 
 }

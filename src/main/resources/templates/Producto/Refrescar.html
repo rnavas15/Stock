@@ -106,7 +106,7 @@
           </td>
 
           <td id="ModificarProducto">
-            <button class="btn btn-primary editar" th:attr="onclick=|ModificarStock('${producto.prodId}')|"><i
+            <button class="btn btn-primary editar"  th:attr="onclick=|ModificarStock('${producto.prodId}')|"><i
                 class="fas fa-solid fa-check"></i></button>
             <button class="btn btn-danger mov" th:attr="onclick=|movimientos('${producto.prodId}')|"><i
                 class="fas fa-solid fa-chart-bar"></i></button>
@@ -148,7 +148,7 @@
           <td th:text="${movimiento.costoActual}"></td>
           <td th:text="${movimiento.costoNuevo}"></td>
           <td th:text="${movimiento.cantidadActual}"></td>
-          <td th:text="${movimiento.cantidadIng}"></td>
+          <td th:text="${movimiento.cantidadNueva}"></td>
           <td th:text="${movimiento.fechaMov}"></td>
       
         </tr>

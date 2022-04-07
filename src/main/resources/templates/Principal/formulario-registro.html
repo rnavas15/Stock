@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="fragments/components :: head">
+
+    <title>Registrar Usuario</title>
+
+
+</head>
+
+<body>
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div th:insert="fragments/components :: menu"></div>
+
+        <main role="main" class="mt-5">
+
+            <div th:insert="fragments/components :: thif"></div>
+
+            <div th:if="${logout}" class="mt-4 text-center">
+                <div class="row col-md-4 mx-auto">
+                    <div th:text="${logout}" class="alert alert-success m-0 shadow"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mx-auto px-0">
+                    <div class="card text-dark text-center shadow">
+                        <div class="card-header">
+                            <h3>Registro</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="formulario" class="needs-validation mb-4" th:action="@{/registrar}" method="POST"
+                                autocomplete="off" novalidate enctype="multipart/form-data">
+
+                                <div class="form-group mb-3">
+                                    <input id="nombre" type="text" name="nombre" placeholder="Nombre"
+                                        class="form-control" required />
+                                    <div class="invalid-feedback text-start">El nombre es obligatorio</div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input id="apellido" type="text" name="apellido" placeholder="Apellido"
+                                        class="form-control" required />
+                                    <div class="invalid-feedback text-start">El apellido es obligatorio</div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input id="direccion" type="text" name="direccion" placeholder="Direccion"
+                                        class="form-control" required />
+                                    <div class="invalid-feedback text-start">La direccion es obligatorio</div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input id="email" type="email" name="email" placeholder="Correo"
+                                        class="form-control" required />
+                                    <div class="invalid-feedback text-start">El correo es obligatorio</div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input id="clave1" type="password" name="clave1" placeholder="Contraseña"
+                                        class="form-control" required />
+                                    <div class="invalid-feedback text-start">La contraseña es obligatoria</div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input id="clave2" type="password" name="clave2" placeholder="Repita Contraseña"
+                                        class="form-control" required />
+                                    <div class="invalid-feedback text-start">La contraseña es obligatoria</div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="file" id="foto" name="foto" placeholder="Agrege una foto"
+                                        class="form-control" />
+
+                                </div>
+                                <button class="btn btn-success" type="submit">Registrarse!</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+
+<div th:insert="fragments/components :: scripts"></div>
+
+<script>
+    (() => {
+        "use strict";
+
+        const form = document.getElementById("formulario");
+        form.addEventListener("submit", (event) => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add("was-validated");
+        }, false);
+    })()
+</script>
+</body>
+
+</html>
