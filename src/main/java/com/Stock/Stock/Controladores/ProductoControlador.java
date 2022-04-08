@@ -49,6 +49,13 @@ public class ProductoControlador {
         modelo.put("productos",productoServicio.buscarProductosStandar());
         return "redirect:";
     }
+      @PostMapping("/modificar-producto")
+    public String modificarProducto(ModelMap modelo,@RequestParam  Integer prodId ,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria) throws Exception{
+  
+        productoServicio.modificarProducto(prodId,fabricante,0 , nombre, costo, precio,foto,categoria);
+        modelo.put("articulos",productoServicio.buscarArticulos());
+        return "redirect:";
+    }
     
     @RequestMapping("/Stock")
     public String recargar(ModelMap modelo){

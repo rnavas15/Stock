@@ -64,7 +64,7 @@
                             <td id="ArtPrecio" th:text="${producto.precioVenta}"></td>
                             <td id="ArtCategoria" th:text="${producto.categoria}"></td>
                             <td th:text="${producto.unidad}"></td>
-                            <td th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
+                            <td id="ArtImage" th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
                                 th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil">
                             </td>
                             <td th:unless="${producto.foto!=null}"></td>
@@ -125,6 +125,12 @@
                   method="post" autocomplete="off" novalidate enctype="multipart/form-data">
                   <div class="card-body">
                     <div class="form-group mb-3">
+                      <label for="imagen">Imagen</label>
+                      <div id="imagen">
+                      </div>
+
+                    </div>
+                    <div class="form-group mb-3">
                       <label for="idArt">ID del Articulo</label>
                       <input name="id" type="text" class="form-control" placeholder="ID" id="idArt" readonly>
                      
@@ -164,8 +170,8 @@
                     <div class="container-fluid">
                       <div class="form-group">
                         <label>Categoria de Articulo</label>
-                        <select class="select" style="width: 100%;" name="categoria">
-                          <option th:each="categoria:${categorias}" selected="selected" th:text="${categoria}">
+                        <select   class="select" style="width: 100%;" name="categoria">
+                          <option  selected="selected" th:text="${categorias[0].PRODUCTO}">
                           </option>
 
                         </select>
@@ -254,7 +260,7 @@
         var nombre1;
 
         nombre = $(this).closest('tr').find('td').each(function () {
-          $(this).parent().find("#PCNombre").each(function () { $(this).text() })
+          $(this).parent().find("#ArtNombre").each(function () { $(this).text() })
 
 
         })
@@ -264,6 +270,9 @@
         precio = nombre.parent().find("#ArtPrecio").text();
         categoria = nombre.parent().find("#ArtCategoria").text();
         fabricante = nombre.parent().find("#ArtFabricante").text();
+        var image = new Image;
+      $(".htmlChunk img.Thumb")
+      var img = nombre.parent().find("#ArtImage");
 
         $('#idArt').val(id1);
         $('#nombreProd').val(nombre1);
@@ -271,8 +280,20 @@
         $('#precioProd').val(precio);
         $('#categoria').val(categoria);
         $('#fabricanteProd').val(fabricante);
-      });
 
+        const div = document.querySelector("#ArtImage")
+      if (img.length == 0) {
+        console.log("VACIO")
+        div.innerHTML = ""
+      } else {
+        img1 = img[0].innerHTML;
+        console.log(img1)
+
+        const div = document.querySelector("#imagen")
+        div.innerHTML = img1
+      }
+      });
+  $("#imagen").val(image)
     };
 
 

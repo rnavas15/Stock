@@ -78,7 +78,7 @@ public class ProductoServicio {
                 System.out.println("NUEVO COSTO  "+costo);
 
         P.setFabricante(fabricante);
-        P.setStock(0.0);
+        
         P.setNombre(nombre);
         P.setCosto(costo);
         if (!foto.isEmpty()) {
@@ -96,6 +96,27 @@ public class ProductoServicio {
         }else{
             System.out.println("COMPARO IGUALES");
         }
+
+    }
+     @Transactional
+    public void modificarProducto(Integer id, String fabricante, Integer stock, String nombre, Double costo, Double precioVenta, MultipartFile foto, String categoria) throws Exception {
+        ProductoStandar P = productoRepositorio.buscarProductoStandar(id);
+        
+        Double costoprevio=P.getCosto();
+    
+
+        P.setFabricante(fabricante);
+        P.setNombre(nombre);
+        P.setCosto(costo);
+        if (!foto.isEmpty()) {
+            P.setFoto(fotoServicio.guardar(foto));
+        };
+        P.setPrecioVenta(precioVenta);
+        P.setCategoria(Categoria.valueOf(categoria));
+        P.setUnidad(UnidadesDeMedida.UN);
+
+        productoRepositorio.save(P);
+        
 
     }
 

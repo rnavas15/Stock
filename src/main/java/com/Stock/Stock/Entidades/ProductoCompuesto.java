@@ -6,6 +6,7 @@
 package com.Stock.Stock.Entidades;
 
 import Enum.Categoria;
+import Enum.VisibilidadProducto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.List;
@@ -42,10 +43,19 @@ public class ProductoCompuesto extends Producto implements Serializable{
         super(nombre, costo, precioVenta, movimiento, lote, detallesGasto, detallesPedido);
     }
 
-
-    public ProductoCompuesto(Integer prodId, String nombre, Double costo, Double precioVenta, Categoria categoria, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido, Foto foto) {
-        super(prodId, nombre, costo, precioVenta, categoria, movimiento, lote, detallesGasto, detallesPedido, foto);
+    public ProductoCompuesto(List<Ingrediente> ingrediente, String nombre, Double costo, Double precioVenta, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido) {
+        super(nombre, costo, precioVenta, movimiento, lote, detallesGasto, detallesPedido);
+        this.ingrediente = ingrediente;
     }
-            
+
+    
+
+    public ProductoCompuesto(List<Ingrediente> ingrediente, Integer prodId, String nombre, Double costo, Double precioVenta, Categoria categoria, VisibilidadProducto visibilidad, List<MovimientoStock> movimiento, List<Lote> lote, List<DetalleGasto> detallesGasto, List<DetallePedido> detallesPedido, Foto foto) {
+        super(prodId, nombre, costo, precioVenta, categoria, visibilidad, movimiento, lote, detallesGasto, detallesPedido, foto);
+        this.ingrediente = ingrediente;
+    }
+
+
+
     
 }

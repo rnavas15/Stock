@@ -2,13 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:insert="fragments/components :: head">
-
+  <title>Producto</title>
 </head>
 
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
     <!-- Navbar -->
-   <div th:insert="fragments/components :: asidebar"></div>
+    <div th:insert="fragments/components :: asidebar"></div>
     <div th:insert="fragments/components :: sidebar"></div>
 
 
@@ -36,7 +36,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                      <table id="example1" class="table table-bordered table-striped">
+                      <table id="Producto" class="table table-bordered table-striped">
                         <thead>
                           <tr>
                             <th>Producto</th>
@@ -46,18 +46,20 @@
                             <th>Categoria</th>
                             <th>Imagen</th>
                             <th>Acciones</th>
-                           
+
 
                           </tr>
                         </thead>
                         <tbody>
-                          <tr th:each="producto:${productos}">
-                            <td id="PSnombre"th:text="${producto.nombre}"></td>
-                            <td id="PSfabricante"th:text="${producto.fabricante}"></td>
-                            <td id="PScosto"th:text="${producto.costo}"></td>
-                            <td id="PSprecio"th:text="${producto.precioVenta}"></td>
-                            <td id="PScategoria"th:text="${producto.categoria}"></td>
-                            <td id="PSimagen" th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
+                          <tr id="tablaPC" th:each="producto:${productos}">
+                            <td id="PSId" th:value="${producto.prodId}" th:class="${producto.prodId}"
+                              style="display:none" th:text="${producto.prodId}" readonly></td>
+                            <td id="PSnombre" th:text="${producto.nombre}"></td>
+                            <td id="PSfabricante" th:text="${producto.fabricante}"></td>
+                            <td id="PScosto" th:text="${producto.costo}"></td>
+                            <td id="PSprecio" th:text="${producto.precioVenta}"></td>
+                            <td id="PScategoria" th:text="${producto.categoria}"></td>
+                            <td id="PSImage" th:if="${producto.foto!=null}"><img class="d-inline-block align-top"
                                 th:src="@{/foto/__${producto.prodId}__}" height="60" width="80" alt="Imagen de Perfil">
                             </td>
                             <td th:unless="${producto.foto!=null}"></td>
@@ -65,7 +67,7 @@
                               <button class="btn btn-primary editar"
                                 th:attr="onclick=|myFunction('${producto.prodId}')|"><i
                                   class="fas fa-solid fa-pen"></i></button>
-                              <button class="btn btn-danger editar"
+                              <button class="btn btn-danger eliminar"
                                 th:attr="onclick=|eliminar('${producto.prodId}')|"><i
                                   class="fas fa-solid fa-trash"></i></button>
                             </td>
@@ -116,6 +118,15 @@
                   method="post" autocomplete="off" novalidate enctype="multipart/form-data">
                   <div class="card-body">
                     <div class="form-group mb-3">
+                      <label for="imagen">Imagen</label>
+                      <div id="imagen">
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="prodId">ID Producto</label>
+                        <input name="prodId" readonly type="number" class="form-control" id="prodId" placeholder="ID">
+  
+                      </div>
+                    <div class="form-group mb-3">
                       <label for="nombreProd">Nombre del Producto</label>
                       <input name="nombre" type="text" class="form-control" required id="nombreProd"
                         placeholder="Nombre">
@@ -151,7 +162,7 @@
                         <div class="form-group">
                           <label>Categoria de Producto</label>
                           <select class="select" style="width: 100%;" name="categoria">
-                            <option th:each="categoria:${categorias}" selected="selected" th:text="${categoria}">
+                            <option selected="selected" th:text="${categorias[0].PRODUCTO}">
                             </option>
 
                           </select>
@@ -256,15 +267,15 @@
   </div>
   <!-- ./wrapper -->
 
-  <div th:insert="fragments/components">
+  <div th:insert="fragments/components::scripts">
 
   </div>
- 
 
- 
- 
 
- 
+
+
+
+
   <script>
     (() => {
       "use strict";
@@ -282,17 +293,17 @@
   </script>
 
 
-   <script th:inline="javascript">
+  <script th:inline="javascript">
     function myFunction(id) {
 
       $(document).one('click', '.editar', function (event) {
         event.preventDefault();
-       
-        $("#costoProd").prop('disabled', true)
+
+        $("#costoProd").prop('readonly', true)
 
 
-       
-        $("#formularioProducto").attr("action", "/ProductoCompuesto/modificar-productoCompuesto")
+
+        $("#formularioProducto").attr("action", "/Producto/modificar-producto")
         var BTN = $("#cambiar")
 
 
@@ -303,28 +314,29 @@
         $("#agregadostabla").empty();
 
 
-        $("#ingredientes").find(".ingredientes").prop('disabled', false)
+        
         var option;
         var nombre;
         var nombre1;
 
         nombre = $(this).closest('tr').find('td').each(function () {
-          $(this).parent().find("#PCNombre").each(function () { $(this).text() })
+          $(this).parent().find("#PSNombre").each(function () { $(this).text() })
 
 
         })
-        nombre1 = nombre.parent().find("#Psnombre").text();
+        nombre1 = nombre.parent().find("#PSnombre").text();
 
         costo = nombre.parent().find("#PScosto").text();
-        precio = nombre.parent().find("#Psprecio").text();
-        categoria = nombre.parent().find("#Pscategoria").text();
-        prodId = nombre.parent().find("#PCId").text();
+        precio = nombre.parent().find("#PSprecio").text();
+        fabricante=nombre.parent().find("#PSfabricante").text();
+        categoria = nombre.parent().find("#PScategoria").text();
+        prodId = nombre.parent().find("#PSId").text();
         var image = new Image;
         $(".htmlChunk img.Thumb")
-        var img = nombre.parent().find("#PCImage");
+        var img = nombre.parent().find("#PSImage");
 
 
-       
+
 
         const div = document.querySelector("#imagen")
         if (img.length == 0) {
@@ -332,7 +344,7 @@
           div.innerHTML = ""
         } else {
           img1 = img[0].innerHTML;
-          console.log(img1)
+          
 
           const div = document.querySelector("#imagen")
           div.innerHTML = img1
@@ -343,68 +355,15 @@
         $('#nombreProd').val(nombre1);
 
         $('#precioProd').val(precio);
+        $('#costoProd').val(costo);
+        $('#fabricanteProd').val(fabricante);
+
         $('#categoria').val(categoria);
         $('#prodId').val(prodId);
         $("#imagen").val(image)
-        var nuevosing = ingredientes;
+        
 
-        $.getJSON("http://localhost:8080/ingredientes/llenardata/" + id, function (result) {
-
-
-
-
-
-          for (var i = 0; i < result.length; i++) {
-
-            console.log(result[i])
-            console.log(result[i].articulo.prodId)
-
-            if (!ingredientes.includes(result[i])) {
-              nuevosing = nuevosing.filter(function (x) { return x.prodId != result[i].articulo.prodId; });
-
-            }
-            markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'>" + result[i].cantidad + "</td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
-            $("#agregadostabla").append(markup);
-          }
-
-          for (i = 0; i < nuevosing.length; i++) {
-            option = "<option id='" + nuevosing[i].prodId + "' text='" + nuevosing[i].nombre + "'value='" + nuevosing[i].prodId + "," + nuevosing[i].fabricante + "," + nuevosing[i].unidad + "," + nuevosing[i].costo + "'>" + nuevosing[i].nombre + "</option>";
-            $("#selectprueba").append(option)
-          }
-          var indice = document.getElementById("agregadostabla").rows.length;
-          var costo1 = 0.0;
-          for (i = 0; i < indice; i++) {
-            //console.log(document.getElementById("agragadostabla").rows[i].cells[5].innerHTML)
-            costo1 += parseFloat(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
-          }
-          $("#costototal").val(costo1);
-          $('#costoProd').val(costo1);
-
-          $(function () {
-            $(".cant").click(function () {
-              var OriginalContent = $(this).text();
-              $(this).addClass("cellEditing");
-              $(this).html("<input type='text' value='" + OriginalContent + "' />");
-              $(this).children().first().focus();
-              $(this).children().first().keypress(function (e) {
-                if (e.which == 13) {
-                  var newContent = $(this).val();
-                  $(this).parent().text(newContent);
-                  $(this).parent().removeClass("cellEditing");
-                }
-              });
-              $(this).children().first().blur(function () {
-                $(this).parent().text(OriginalContent);
-                $(this).parent().removeClass("cellEditing");
-              });
-              $(this).find('input').click(function (e) {
-                e.stopPropagation();
-              });
-            });
-          });
-
-
-        });
+    
       });
 
     }
@@ -414,4 +373,3 @@
 </body>
 
 </html>
-

@@ -6,6 +6,7 @@
 package com.Stock.Stock.Entidades;
 
 import Enum.Categoria;
+import Enum.VisibilidadProducto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
@@ -49,6 +50,9 @@ public abstract class Producto implements Serializable {
     @Column(name = "TIPO")
     @Enumerated(EnumType.STRING)
     protected Categoria categoria;
+    
+     @Enumerated(EnumType.STRING)
+    protected VisibilidadProducto visibilidad;
     
     
     @OneToMany (mappedBy = "producto")    

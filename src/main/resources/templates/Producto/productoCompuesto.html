@@ -170,8 +170,8 @@
                       <div class="container-fluid">
                         <div class="form-group">
                           <label>Categoria de Producto</label>
-                          <select class="select" style="width: 100%;" name="categoria">
-                            <option th:each="categoria:${categorias}" selected="selected" th:text="${categoria}">
+                          <select readonly class="select" style="width: 100%;" name="categoria">
+                            <option  selected="selected" th:text="${categorias[0].PRODUCTO}">
                             </option>
 
                           </select>
@@ -389,7 +389,7 @@
         div.innerHTML = ""
       } else {
         img1 = img[0].innerHTML;
-        console.log(img1)
+       
 
         const div = document.querySelector("#imagen")
         div.innerHTML = img1

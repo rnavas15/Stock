@@ -9,7 +9,7 @@ package Enum;
  *
  * @author rnavas
  */
-public enum TipoMovimiento {
-    ACTUALIZACION,COMPRA,VENTA,RESERVA,RECEPCION,DESPACHO;
+public enum VisibilidadProducto {
+    TODOS,IE
     
 }

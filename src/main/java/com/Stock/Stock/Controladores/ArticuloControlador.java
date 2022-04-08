@@ -53,7 +53,7 @@ public class ArticuloControlador {
     }
     
     @PostMapping("/modificar-articulo")
-    public String modificarArticulo(ModelMap modelo,@RequestParam (required = false)  String id ,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria,@RequestParam String unidad) throws Exception{
+    public String modificarArticulo(ModelMap modelo,@RequestParam  String id ,@RequestParam String fabricante, @RequestParam String nombre,@RequestParam Double costo, @RequestParam Double precio,@RequestParam MultipartFile foto, @RequestParam String categoria,@RequestParam String unidad) throws Exception{
   
         productoServicio.modificarArticulo(Integer.valueOf(id),fabricante,0 , nombre, costo, precio,foto,categoria,unidad);
         modelo.put("articulos",productoServicio.buscarArticulos());
