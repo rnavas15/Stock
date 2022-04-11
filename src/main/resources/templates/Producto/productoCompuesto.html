@@ -170,8 +170,8 @@
                       <div class="container-fluid">
                         <div class="form-group">
                           <label>Categoria de Producto</label>
-                          <select readonly class="select" style="width: 100%;" name="categoria">
-                            <option  selected="selected" th:text="${categorias[0].PRODUCTO}">
+                          <select class="select" style="width: 100%;" name="categoria">
+                            <option selected="selected" th:text="${categorias[0].PRODUCTO}">
                             </option>
 
                           </select>
@@ -218,8 +218,7 @@
                       <div class="row">
                         <div class="col-md-10">
                           <div class="form-group">
-                            <select class="ingredientes"
-                              style="width: 100%;"  id="selectprueba" name="categoria">
+                            <select class="ingredientes" style="width: 100%;" id="selectprueba" name="categoria">
 
                             </select>
                           </div>
@@ -292,7 +291,7 @@
 
 
         <!-- /.row -->
-        
+
         <!-- /.container-fluid -->
       </section>
       <!-- /.content -->
@@ -338,143 +337,122 @@
   </script>
 
 
- <script th:inline="javascript">
-  function myFunction(id) {
+  <script th:inline="javascript">
+    function myFunction(id) {
 
-    $(document).one('click', '.editar', function (event) {
-      event.preventDefault();
-      $(".ingredientes").empty();
-
-      
-      
-      $("#formularioProductoCompuesto").attr("action", "/ProductoCompuesto/modificar-productoCompuesto")
-      var BTN = $("#cambiar")
-      $("#costoProd").prop('disabled', true)
-
-
-      BTN.text("Modificar")
+      $(document).one('click', '.editar', function (event) {
+        event.preventDefault();
+        $(".ingredientes").empty();
 
 
 
-      $("#agregadostabla").empty();
+        $("#formularioProductoCompuesto").attr("action", "/ProductoCompuesto/modificar-productoCompuesto")
+        var BTN = $("#cambiar")
+        $("#costoProd").prop('disabled', true)
 
 
-      $("#ingredientes").find(".ingredientes").prop('disabled', false)
-      var option;
-      var nombre;
-      var nombre1;
-
-      nombre = $(this).closest('tr').find('td').each(function () {
-        $(this).parent().find("#PCNombre").each(function () { $(this).text() })
+        BTN.text("Modificar")
 
 
-      })
-      nombre1 = nombre.parent().find("#PCNombre").text();
 
-      costo = nombre.parent().find("#PCCosto").text();
-      precio = nombre.parent().find("#PCPrecio").text();
-      categoria = nombre.parent().find("#PCCategoria").text();
-      costo = nombre.parent().find("#PCCosto").text();
-      prodId = nombre.parent().find("#PCId").text();
-      var image = new Image;
-      $(".htmlChunk img.Thumb")
-      var img = nombre.parent().find("#PCImage");
+        $("#agregadostabla").empty();
 
 
-     
+        $("#ingredientes").find(".ingredientes").prop('disabled', false)
+        var option;
+        var nombre;
+        var nombre1;
 
-      const div = document.querySelector("#imagen")
-      if (img.length == 0) {
-        console.log("VACIO")
-        div.innerHTML = ""
-      } else {
-        img1 = img[0].innerHTML;
-       
+        nombre = $(this).closest('tr').find('td').each(function () {
+          $(this).parent().find("#PCNombre").each(function () { $(this).text() })
+
+
+        })
+        nombre1 = nombre.parent().find("#PCNombre").text();
+
+        costo = nombre.parent().find("#PCCosto").text();
+        precio = nombre.parent().find("#PCPrecio").text();
+        categoria = nombre.parent().find("#PCCategoria").text();
+        costo = nombre.parent().find("#PCCosto").text();
+        prodId = nombre.parent().find("#PCId").text();
+        var image = new Image;
+        $(".htmlChunk img.Thumb")
+        var img = nombre.parent().find("#PCImage");
+
+
+
 
         const div = document.querySelector("#imagen")
-        div.innerHTML = img1
-        // $("#imagen").append("<img class='d-inline-block align-top'th:src='"+prueba+"' height='60' width='80' alt='Imagen de Perfil'>")
+        if (img.length == 0) {
+          console.log("VACIO")
+          div.innerHTML = ""
+        } else {
+          img1 = img[0].innerHTML;
+          console.log(img1)
 
-      }
-      // console.log("STRING "+ prueba)
-      $('#nombreProd').val(nombre1);
+          const div = document.querySelector("#imagen")
+          div.innerHTML = img1
+          // $("#imagen").append("<img class='d-inline-block align-top'th:src='"+prueba+"' height='60' width='80' alt='Imagen de Perfil'>")
 
-      $('#precioProd').val(precio);
-      $('#categoria').val(categoria);
-      $('#prodId').val(prodId);
-      $("#imagen").val(image)
-       /*<![CDATA[*/
-       var articulos =/*[[${articulos}]]*/"Art";
+        }
+        // console.log("STRING "+ prueba)
+        $('#nombreProd').val(nombre1);
+
+        $('#precioProd').val(precio);
+        $('#categoria').val(categoria);
+        $('#prodId').val(prodId);
+        $("#imagen").val(image)
+        /*<![CDATA[*/
+        var articulos =/*[[${articulos}]]*/"Art";
         /*]]>*/
-      var nuevosing = articulos;
+        var nuevosing = articulos;
 
-      $.getJSON("http://localhost:8080/ingredientes/llenardata/" + id, function (result) {
-
-
+        $.getJSON("http://localhost:8080/ingredientes/llenardata/" + id, function (result) {
 
 
 
-        for (var i = 0; i < result.length; i++) {
 
-          console.log(result[i])
-          console.log(result[i].articulo.prodId)
 
-          if (!articulos.includes(result[i])) {
-            nuevosing = nuevosing.filter(function (x) { return x.prodId != result[i].articulo.prodId; });
+          for (var i = 0; i < result.length; i++) {
 
+            console.log(result[i])
+            console.log(result[i].articulo.prodId)
+
+            if (!articulos.includes(result[i])) {
+              nuevosing = nuevosing.filter(function (x) { return x.prodId != result[i].articulo.prodId; });
+
+            }
+            markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'><input id='ca' type='number' value='" + result[i].cantidad + "'></td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td id='costoquitar'>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+            $("#agregadostabla").append(markup);
           }
-          markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'>" + result[i].cantidad + "</td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td id='costoquitar'>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
-          $("#agregadostabla").append(markup);
-        }
 
-        for (i = 0; i < nuevosing.length; i++) {
-          option = "<option id='" + nuevosing[i].prodId + "' text='" + nuevosing[i].nombre + "'value='" + nuevosing[i].prodId + "," + nuevosing[i].fabricante + "," + nuevosing[i].unidad + "," + nuevosing[i].costo + "'>" + nuevosing[i].nombre + "</option>";
-          $("#selectprueba").append(option)
-        }
-        
-        var indice = document.getElementById("agregadostabla").rows.length;
-        var costo1 = 0.0;
-        for (i = 0; i < indice; i++) {
-          //console.log(document.getElementById("agragadostabla").rows[i].cells[5].innerHTML)
-          costo1 += parseFloat(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
-        }
-        $("#costototal").val(costo1);
-        $('#costoProd').val(costo1);
+          for (i = 0; i < nuevosing.length; i++) {
+            option = "<option id='" + nuevosing[i].prodId + "' text='" + nuevosing[i].nombre + "'value='" + nuevosing[i].prodId + "," + nuevosing[i].fabricante + "," + nuevosing[i].unidad + "," + nuevosing[i].costo + "'>" + nuevosing[i].nombre + "</option>";
+            $("#selectprueba").append(option)
+          }
 
-        $(function () {
-          $(".cant").click(function () {
-            var OriginalContent = $(this).text();
-            $(this).addClass("cellEditing");
-            $(this).html("<input type='text' value='" + OriginalContent + "' />");
-            $(this).children().first().focus();
-            $(this).children().first().keypress(function (e) {
-              if (e.which == 13) {
-                var newContent = $(this).val();
-                $(this).parent().text(newContent);
-                $(this).parent().removeClass("cellEditing");
-              }
-            });
-            $(this).children().first().blur(function () {
-              $(this).parent().text(OriginalContent);
-              $(this).parent().removeClass("cellEditing");
-            });
-            $(this).find('input').click(function (e) {
-              e.stopPropagation();
-            });
-          });
+          var indice = document.getElementById("agregadostabla").rows.length;
+          var costo1 = 0.0;
+          for (i = 0; i < indice; i++) {
+            //console.log(document.getElementById("agragadostabla").rows[i].cells[5].innerHTML)
+            costo1 += parseFloat(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
+          }
+          $("#costototal").val(costo1);
+          $('#costoProd').val(costo1);
+
+
+
+
         });
-
+      });
+      $('#selectprueba').selectize({
+        sortField: 'text'
 
       });
-    });
-    $('#selectprueba').selectize({
-            sortField: 'text'
-            
-          });
-  }
+    }
 
 
-</script>
+  </script>
   <script>
     $("#add-soy-sauce-button").click(function () {
       var newitemnum = 4;
@@ -534,36 +512,14 @@
 
 
       console.log(x)
-      console.log("REVISAR"+y)
+      console.log("REVISAR" + y)
       console.log(a)
       console.log(b)
 
       $("#selectprueba option:selected").remove();
-      var markup = "<tr class='idagregar'><td id='idquitar'value='" + y[0] + "' style='display:none'  >" + y[0] + "</td><td id='nombrequitar'>" + b + "</td><td id='fabricantequitar'>" + y[1] + "</td><td class='cant'>0</td><td id='unidadquitar'>" + y[2] + "</td><td id='costoquitar'>" + 0 + "</td><td> <button type='button'  value='" + b + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+      var markup = "<tr class='idagregar'><td id='idquitar'value='" + y[0] + "' style='display:none'  >" + y[0] + "</td><td id='nombrequitar'>" + b + "</td><td id='fabricantequitar'>" + y[1] + "</td><td class='cant'><input id='ca' type='number' value='0'></td><td id='unidadquitar'>" + y[2] + "</td><td id='costoquitar'>" + 0 + "</td><td> <button type='button'  value='" + b + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
       $("#agregadostabla").append(markup);
 
-      $(function () {
-        $(".cant").click(function () {
-          var OriginalContent = $(this).text();
-          $(this).addClass("cellEditing");
-          $(this).html("<input type='text' value='" + OriginalContent + "' />");
-          $(this).children().first().focus();
-          $(this).children().first().keypress(function (e) {
-            if (e.which == 13) {
-              var newContent = $(this).val();
-              $(this).parent().text(newContent);
-              $(this).parent().removeClass("cellEditing");
-            }
-          });
-          $(this).children().first().blur(function () {
-            $(this).parent().text(OriginalContent);
-            $(this).parent().removeClass("cellEditing");
-          });
-          $(this).find('input').click(function (e) {
-            e.stopPropagation();
-          });
-        });
-      });
 
 
 
@@ -573,7 +529,7 @@
 
   </script>
   <script>
-    $(document).ready(function  () {
+    $(document).ready(function () {
 
 
       $('#TablaProductos').DataTable(
@@ -623,14 +579,23 @@
       var cant = "";
       var costo = 0.0;
       var indice = document.getElementById("agregadostabla").rows.length;
-
       for (i = 0; i < indice; i++) {
 
         ids += (",{'id':" + document.getElementById("agregadostabla").rows[i].cells[0].innerHTML + "}")
+        var uno = document.getElementById("agregadostabla").rows[i].cells[3]
 
-        cant += (",{'cantidad':" + document.getElementById("agregadostabla").rows[i].cells[3].innerHTML + "}")
+        
+
+        cant += (",{'cantidad':" + uno.getElementsByTagName('input')[0].value + "}")
         costo += Number(document.getElementById("agregadostabla").rows[i].cells[5].innerHTML)
+
+        console.log("CANT " + cant)
+        console.log("IDS " + ids)
+        console.log("costo " + costo)
+
+
       }
+  
       $("#costototal").val(costo);
       var ids = JSON.parse(JSON.stringify("[" + ids.substring(1) + "]"))
       var json = JSON.parse(JSON.stringify("[" + cant.substring(1) + "]"))
@@ -647,7 +612,7 @@
 
 
 
-   
+
 
 
       $.ajax({
@@ -694,7 +659,7 @@
               console.log(result[i].articulo.prodId)
 
 
-              markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'>" + result[i].cantidad + "</td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
+              markup = "<tr class='idagregar'><td id='idquitar'value='" + result[i].articulo.prodId + "' style='display:none'  >" + result[i].articulo.prodId + "</td><td id='nombrequitar'>" + result[i].articulo.nombre + "</td><td id='fabricantequitar'>" + result[i].articulo.fabricante + "</td><td class='cant'><input id='ca' type='number' value='" + result[i].cantidad + "'></td><td id='unidadquitar'>" + result[i].articulo.unidad + "</td><td>" + (result[i].articulo.costo * result[i].cantidad) + "</td><td> <button type='button'  value='" + result[i].articulo.nombre + "' class='borrar btn btn-danger '><i class='fa fa-trash'></i></button></td></tr>";
               $("#agregadostabla").append(markup);
             }
 
@@ -708,32 +673,11 @@
             $("#costototal").val(costo1);
             $('#costoProd').val(costo1);
 
-            $(function () {
-              $(".cant").click(function () {
-                var OriginalContent = $(this).text();
-                $(this).addClass("cellEditing");
-                $(this).html("<input type='text' value='" + OriginalContent + "' />");
-                $(this).children().first().focus();
-                $(this).children().first().keypress(function (e) {
-                  if (e.which == 13) {
-                    var newContent = $(this).val();
-                    $(this).parent().text(newContent);
-                    $(this).parent().removeClass("cellEditing");
-                  }
-                });
-                $(this).children().first().blur(function () {
-                  $(this).parent().text(OriginalContent);
-                  $(this).parent().removeClass("cellEditing");
-                });
-                $(this).find('input').click(function (e) {
-                  e.stopPropagation();
-                });
-              });
-            });
+        
 
 
           });
-    
+
           datos();
           $("#costototal").val(costo);
           $('#costoProd').val(costo);
@@ -746,7 +690,7 @@
       });
 
 
-     
+
 
 
 
